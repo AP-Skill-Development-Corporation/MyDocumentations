@@ -622,6 +622,6 @@ public void navigate() {
 
 ## 4.11.1. Using Android Studio
 
-Right-click on your test and select Run.
+Right-click on your test and select Run.testCase Passed
 
-![a6](https://user-images.githubusercontent.com/51777024/86596217-7b7e0c00-bfb7-11ea-9b0e-25fe201699fe.png)
+![aaa](https://user-images.githubusercontent.com/51777024/86599305-11b43100-bfbc-11ea-8363-ad8245460e2d.png)
