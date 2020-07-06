@@ -386,8 +386,242 @@ To find a view, use the onView() method with a view matcher which selects the co
 The following table describes the available matchers.
 
 Table 1. Espresso matchers
+![mi](https://user-images.githubusercontent.com/51777024/86597769-d0228680-bfb9-11ea-9657-fa0805787784.PNG)
+
+## 4.3. Performing Actions
+
+ViewInteraction and DataInteraction allow to specify an action for test via an object of type ViewAction via the perform method. The ViewActions class provides helper methods for the most common actions, like:
+
+* ViewActions.click
+
+* ViewActions.typeText()
+
+* ViewActions.pressKey()
+
+* ViewActions.clearText()
+
+The perform method returns again an object of type ViewInteraction on which you can perform more actions or validate the result. It also uses varags as argument, i.e, you can pass several actions at the same time to it.
+
+## 4.4. Verifying test results
+
+Call the ViewInteraction.check() method to assert a view state. This method expects a ViewAssertion object as input. The ViewAssertions class provides helper methods for creating these objects:
+
+matches - Hamcrest matcher
+
+doesNotExist - asserts that the select view does not exist
+
+You can use the powerful Hamcrest matchers. The following gives a few examples:
+
 
 ```
+onView(withText(startsWith("ABC"))).perform(click()); 1
+
+onView(withText(endsWith("YYZZ"))).perform(click()); 2
+
+onView(withId(R.id.viewId)).check(matches(withContentDescription(containsString("YYZZ")))); 3
+
+onView(withText(equalToIgnoringCase("xxYY"))).perform(click()); 4
+ -
+onView(withText(equalToIgnoringWhiteSpace("XX YY ZZ"))).perform(click()); 5
+
+onView(withId(R.id.viewId)).check(matches(withText(not(containsString("YYZZ"))))); 6
 ```
+1.Matches a view which text starts with "ABC" pattern
+2.Matches a view which text ends with "YYZZ" pattern
+3.Matches that the text of the view with specified R.id has content description which contains "YYZZ" string anywhere
+4.Matches a view which text is equal to the specified string, ignoring case:
+5.Matches a view which text is equal to the specified text when whitespace differences are (mostly) ignored
+6.Matches that text of a particular view with specified R.id does not contain "YYZZ" string
+
+## 4.5. Access to the instrumentation API
+Via the InstrumentationRegistry.getTargetContext() you have access to the target context of your application. For example, if you want to use the id without using R.id you can use the following helper method to determine it.
+
+
 ```
+package testing.android.vogella.com.asynctask;
+
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+@RunWith(AndroidJUnit4.class)
+public class EspressoTest {
+
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule =
+            new ActivityTestRule<>(MainActivity.class);
+
+    @Test
+    public void buttonShouldUpdateText(){
+        onView(withId(R.id.update)).perform(click());
+        onView(withId(getResourceId("Click"))).check(matches(withText("Done")));
+    }
+
+    private static int getResourceId(String s) {
+        Context targetContext = InstrumentationRegistry.getTargetContext();
+        String packageName = targetContext.getPackageName();
+        return targetContext.getResources().getIdentifier(s, "id", packageName);
+    }
+}
 ```
+## 4.6. Configuring the start intent for the activity
+If you specify false as third parameter in the ActivityTestRule, you can configure the intent for starting the activity. This is as demonstrated in the following code example.
+```
+package com.vogella.android.testing.espressosamples;
+
+import android.content.Intent;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+@RunWith(AndroidJUnit4.class)
+public class SecondActivityTest {
+
+    @Rule
+    // third parameter is set to false which means the activity is not started automatically
+    public ActivityTestRule<SecondActivity> rule =
+        new ActivityTestRule(SecondActivity.class, true, false);
+
+    @Test
+    public void demonstrateIntentPrep() {
+        Intent intent = new Intent();
+        intent.putExtra("EXTRA", "Test");
+        rule.launchActivity(intent);
+        onView(withId(R.id.display)).check(matches(withText("Test")));
+    }
+}
+```
+## 4.7. Adapter views
+AdapterView is a special type of widget that loads its data dynamically from an adapter. Only a subset of the data has real views in the current view hierarchy. A onView() search would not find views for them. onData can be used to interactive with adapter views, like ListView. The following gives a few examples.
+
+```
+// click on an item of type String in a spinner
+// afterwards verify that the view with the R.id.spinnertext_simple id contains "Eclipse"
+onData(allOf(is(instanceOf(String.class)), is("Eclipse"))).perform(click());
+onView(withId()).check(matches(withText(containsString("Eclipse")))); // normal view not adapter view
+
+onData(allOf(is(instanceOf(Map.class)), hasEntry(equalTo("STR"), is("item: 50"))).perform(click());
+
+onData(withItemContent("item: 60")).onChildView(withId(R.id.item_size)).perform(click());
+
+```
+## 4.8. Espresso testing with permissions
+Via instrumentation you can grand your tests the permission to execute.
+```
+@Before
+public void grantPermission() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        getInstrumentation().getUiAutomation().executeShellCommand(
+                "pm grant " + getTargetContext().getPackageName()
+                        + " android.permission.CALL_PHONE");
+    }
+}
+```
+## 4.9. Espresso UI recorder
+Android Studio provides an Run  Record Espresso Test menu entry which allows you to record the interaction with your application and create a Espresso test from it.
+![a3](https://user-images.githubusercontent.com/51777024/86596122-5be6e380-bfb7-11ea-911c-9b64ae71bcb3.png)
+![a4](https://user-images.githubusercontent.com/51777024/86596157-673a0f00-bfb7-11ea-8a19-62321e750982.png)
+## 4.10. Configuring the activity under test
+You can also access the activity object which you are testing and call methods on it. For example, assume you want to call a method on your activity.
+```
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+    public void configureMainActivity(String Uri) {
+        // do something with this
+    }
+}
+```
+This configureMainActivity can be called in your test.
+```
+package com.vogella.android.myapplication;
+
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
+
+public class ExampleInstrumentedTest {
+
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule =
+            new ActivityTestRule<MainActivity>(MainActivity.class);
+
+    @Test
+    public void useAppContext() throws Exception {
+        MainActivity activity = mActivityRule.getActivity();
+        activity.configureMainActivity("https://www.vogella.com/");
+        // do more
+    }
+}
+```
+You can also override methods in 
+ActivityTestRule, for exmaple the
+beforeActivityLaunched and
+afterActivityLaunched methods.
+You can also access the current activity.
+```
+@Test
+public void navigate() {
+
+        Activity instance = getActivityInstance();
+        onView(withText("Next")).perform(click());
+        Activity activity = getActivityInstance();
+        boolean b = (activity instanceof  SecondActivity);
+        assertTrue(b);
+        // do more
+    }
+
+    public Activity getActivityInstance() { 
+        final Activity[] activity = new Activity[1];
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable( ) {
+            public void run() {
+                Activity currentActivity = null;
+                Collection resumedActivities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(RESUMED);
+                if (resumedActivities.iterator().hasNext()){
+                    currentActivity = (Activity) resumedActivities.iterator().next();
+                    activity[0] = currentActivity;
+                }
+            }
+        });
+
+        return activity[0];
+    }
+
+```
+- Allows to access the currently active activity.
+
+# 4.11. Running Espresso tests
+
+## 4.11.1. Using Android Studio
+
+Right-click on your test and select Run.
+
+![a6](https://user-images.githubusercontent.com/51777024/86596217-7b7e0c00-bfb7-11ea-9b0e-25fe201699fe.png)
