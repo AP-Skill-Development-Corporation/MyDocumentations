@@ -304,10 +304,10 @@ public class MainActivity extends Activity {
     }
 }
 ```
-# 3.2. Adjust the app build.gradle
+## 3.2. Adjust the app build.gradle
 Perform the setting as described in Configuration of the Gradle build file for Espresso.
 
-# 3.3. Create your Espresso test
+## 3.3. Create your Espresso test
 
 ```
 package com.vogella.android.espressofirst;
@@ -618,7 +618,7 @@ public void navigate() {
 ```
 - Allows to access the currently active activity.
 
-# 4.11. Running Espresso tests
+## 4.11. Running Espresso tests
 
 ## 4.11.1. Using Android Studio
 
