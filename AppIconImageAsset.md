@@ -47,7 +47,7 @@ Launcher icons should be 32-bit PNGs with an alpha channel for transparency. The
 ![c2](https://user-images.githubusercontent.com/51777024/86591317-f858b800-bfae-11ea-9d8f-b784187326f1.png)
 
  
- # Place icon in mipmap or drawable folder
+ ## Place icon in mipmap or drawable folder
  ```
  android:icon="@drawable/icon_name" or android:icon="@mipmap/icon_name"
   ```
