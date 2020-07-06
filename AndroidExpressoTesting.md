@@ -86,17 +86,55 @@ dependencies {
    androidTestImplementation 'com.androidx.espresso:espresso-core:3.0.2'
 }
 ```
-testInstrumentationRunner in the android/defaultConfig sets AndroidJUnitRunner class to run the instrumentation tests. The first line in the dependencies includes the JUnit testing framework, the second line in the dependencies includes the test runner library to run the test cases and finally the third line in the dependencies includes the espresso testing framework.
+# 1. The Espresso test framework
 
-By default, Android studio sets the espresso testing framework (Android support library) as a dependency while creating the android project and gradle will download the necessary library from the Maven repository. Let us create a simple Hello world android application and check whether the espresso testing framework is configured properly.
+Espresso has basically three components:
 
-The steps to create a new Android application are described below −
+ViewMatchers - allows to find view in the current view hierarchy
 
-* Start Android Studio.
+ViewActions - allows to perform actions on the views
 
-* Select File → New → New Project.
+ViewAssertions - allows to assert state of a view
 
-* Enter Application Name (HelloWorldApp) and Company domain (espressosamples.tutorialspoint.com) and then click Next.
+The case construct for Espresso tests is the following:
 
+## Base Espresso Test
 
+```
+onView(ViewMatcher)  1     
+ .perform(ViewAction) 2    
+   .check(ViewAssertion); 3
+```
+1.Finds the view
+2.Performs an action on the view
+3.Validates a assertioin
+
+The following code demonstrates the usage of the Espresso test framework.
+```
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
+// image more code here...
+
+// test statement
+onView(withId(R.id.my_view))            // withId(R.id.my_view) is a ViewMatcher
+        .perform(click())               // click() is a ViewAction
+        .check(matches(isDisplayed())); // matches(isDisplayed()) is a ViewAssertion
+
+// new test
+onView(withId(R.id.greet_button))
+.perform(click())
+.check(matches(not(isEnabled()));
+
+```
+# 2. Making Espresso available
+## 2.1. Installation
+Use the Android SDK manager to install the Android Support Repository.
+
+```
+
+```
 
