@@ -57,7 +57,7 @@ Define the icon for android application
 https://developer.android.com/guide/topics/manifest/application-element.html
 
 If your app available across large range of devices
-You should create separate icons for all generalized screen densities, including low-, medium-, high-, and extra-high-density screens. This ensures that your icons will display properly across the range of devices on which your application can be installed...
+You should create separate icons for all generalized screen densities, including low-, medium-, high-, and extra-high-density screens.This ensures that your icons will display properly across the range of devices on which your application can be installed...
 
 enter image description here
 
