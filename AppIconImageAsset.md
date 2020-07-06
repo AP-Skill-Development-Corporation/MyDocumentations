@@ -20,3 +20,25 @@ You may then define the icon in your AndroidManifest.xml file as such
 Now simply go to menu File → New → Image Asset. This will open a new dialogue and then make sure Launcher Icons is selected (Which it is by default) and then browse to the directory of your icon (it doesn't have to be in the project resources) and then once selected make sure other settings are to your liking and hit done.
 
 Now all resolutions are saved into their respective folders, and you don't have to worry about copying it yourself or using tools, etc.
+
+![imageselect](https://user-images.githubusercontent.com/51777024/86590268-e4ac5200-bfac-11ea-9969-51d0d6df7634.png)
+
+Don't forget "Shape - none" for a transparent background.
+
+Put your images in mipmap folder and set in manifest file... like as
+
+Define the icon for android application
+```
+<application android:icon="drawable resource">
+.... 
+</application> 
+ ```
+ ## If your app available across large range of devices
+ ```
+ You should create separate icons for all generalized screen densities, including low-, medium-, high-, and extra-high-density screens. This ensures that your icons will display properly across the range of devices on which your application can be installed...
+  ```
+ 
+ 
+ 
+ 
+ 
