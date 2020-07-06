@@ -133,8 +133,261 @@ onView(withId(R.id.greet_button))
 # 2. Making Espresso available
 ## 2.1. Installation
 Use the Android SDK manager to install the Android Support Repository.
+![a1](https://user-images.githubusercontent.com/51777024/86595955-22ae7380-bfb7-11ea-9250-ee8e3c275676.PNG)
+## 2.2. Configuration of the Gradle build file for Espresso
+To use Espresso for your tests, add the following dependency to the Gradle build file of your app.
+```
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'junit:junit:4.12'
+
+    // Android runner and rules support
+    androidtestImplementation 'com.android.support.test:runner:0.5'
+    androidtestImplementation 'com.android.support.test:rules:0.5'
+
+    // Espresso support
+    androidtestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    // add this for intent mocking support
+    androidtestImplementation 'com.android.support.test.espresso:espresso-intents:2.2.2'
+
+    // add this for webview testing support
+    androidtestImplementation 'com.android.support.test.espresso:espresso-web:2.2.2'
+
+}
+```
+Ensure that the android.support.test.runner.AndroidJUnitRunner is specified as value for the testInstrumentationRunner parameter in the build file of your app. Via the packagingOptions you may have to exclude LICENSE.txt, depending on the libraries you are using. The following listing is an example for that.
+```
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
+    defaultConfig {
+        applicationId "com.example.android.testing.espresso.BasicSample"
+        minSdkVersion 10
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    // as before.......
+}
+```
+## 2.3. Device settings
+
+It is recommended to turn of the animation on the Android device which is used for testing. Animations might confusing Espressos check for ideling resources.
+
+![a2](https://user-images.githubusercontent.com/51777024/86596110-56899900-bfb7-11ea-840a-febce713a18e.png)
+
+# 3. Exercise: A first Espresso test
+
+## 3.1. Create project under test
+
+Create a new Android project called Espresso First with the package name com.vogella.android.espressofirst. Use the Blank Template as basis for this project.
+
+Change the generated activity_main.xml layout file to the following.
 
 ```
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <EditText
+        android:id="@+id/inputField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/changeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button" android:onClick="onClick"/>
+
+    <Button
+        android:id="@+id/switchActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Text" android:onClick="onClick"/>
+</LinearLayout>
+```
+Create a new file called activity_second.xml.
 
 ```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/resultView" />
+</LinearLayout>
+```
+Create a new activity with the following code.
+
+```
+package com.vogella.android.espressofirst;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+public class SecondActivity extends Activity{
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        TextView viewById = (TextView) findViewById(R.id.resultView);
+        Bundle inputData = getIntent().getExtras();
+        String input = inputData.getString("input");
+        viewById.setText(input);
+    }
+}
+```
+Also adjust your MainActivity class.
+
+```
+package com.vogella.android.espressofirst;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+public class MainActivity extends Activity {
+
+    EditText editText;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        editText = (EditText) findViewById(R.id.inputField);
+    }
+
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.changeText:
+                editText.setText("Lalala");
+                break;
+            case R.id.switchActivity:
+                Intent intent = new Intent(this, SecondActivity.class);
+                intent.putExtra("input", editText.getText().toString());
+                startActivity(intent);
+                break;
+        }
+
+    }
+}
+```
+# 3.2. Adjust the app build.gradle
+Perform the setting as described in Configuration of the Gradle build file for Espresso.
+
+# 3.3. Create your Espresso test
+
+```
+package com.vogella.android.espressofirst;
+
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+
+@RunWith(AndroidJUnit4.class)
+public class MainActivityEspressoTest {
+
+
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule =
+        new ActivityTestRule<>(MainActivity.class);
+
+    @Test
+    public void ensureTextChangesWork() {
+        // Type text and then press the button.
+        onView(withId(R.id.inputField))
+                .perform(typeText("HELLO"), closeSoftKeyboard());
+        onView(withId(R.id.changeText)).perform(click());
+
+        // Check that the text was changed.
+        onView(withId(R.id.inputField)).check(matches(withText("Lalala")));
+    }
+
+    @Test
+    public void changeText_newActivity() {
+        // Type text and then press the button.
+        onView(withId(R.id.inputField)).perform(typeText("NewText"),
+                closeSoftKeyboard());
+        onView(withId(R.id.switchActivity)).perform(click());
+
+        // This view is in a different Activity, no need to tell Espresso.
+        onView(withId(R.id.resultView)).check(matches(withText("NewText")));
+    }
+}
+
+```
+## 3.4. Run your test
+Right-click on your test and select Run. See Running Espresso tests for details.
+# 4. More on writing Espresso unit tests
+## 4.1. Location of Espresso tests and required static imports
+
+Espresso tests must be placed in the app/src/androidTest folder.
+
+To simplify the usage of the Espresso API it is recommended to add the following static imports. This allows to access these methods without the class prefix.
+
+```
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+```
+## 4.2. Using ViewMatcher
+To find a view, use the onView() method with a view matcher which selects the correct view. If you are using an AdapterView use the onData() method instead of the onView() method. The The onView() methods return an object of type ViewInteraction. The onData() method returns an object of type DataInteraction.
+
+The following table describes the available matchers.
+
+Table 1. Espresso matchers
+
+```
+```
+```
+```
