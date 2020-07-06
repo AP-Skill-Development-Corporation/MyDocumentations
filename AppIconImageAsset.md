@@ -12,3 +12,11 @@ If you intend on your application being available on a large range of devices, y
 * drawable-xxxhdpi (640 dpi, Extra-extra-extra-high density screen) - 192px x 192px
 ## Step2
 You may then define the icon in your AndroidManifest.xml file as such
+```
+<application android:icon="@drawable/icon_name" android:label="@string/app_name" >
+.... 
+</application> 
+```
+Now simply go to menu File → New → Image Asset. This will open a new dialogue and then make sure Launcher Icons is selected (Which it is by default) and then browse to the directory of your icon (it doesn't have to be in the project resources) and then once selected make sure other settings are to your liking and hit done.
+
+Now all resolutions are saved into their respective folders, and you don't have to worry about copying it yourself or using tools, etc.
