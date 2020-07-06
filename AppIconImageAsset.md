@@ -34,11 +34,57 @@ Define the icon for android application
 </application> 
  ```
  ## If your app available across large range of devices
- ```
+ 
  You should create separate icons for all generalized screen densities, including low-, medium-, high-, and extra-high-density screens. This ensures that your icons will display properly across the range of devices on which your application can be installed...
+  
+ ![c1](https://user-images.githubusercontent.com/51777024/86591300-f131aa00-bfae-11ea-8049-0d50ec0a41a9.png)
+ 
+ 
+ ## Size & Format
+ 
+Launcher icons should be 32-bit PNGs with an alpha channel for transparency. The finished launcher icon dimensions corresponding to a given generalized screen density are shown in the table below.
+![c2](https://user-images.githubusercontent.com/51777024/86591317-f858b800-bfae-11ea-9d8f-b784187326f1.png)
+
+ 
+ # Place icon in mipmap or drawable folder
+ ```
+ android:icon="@drawable/icon_name" or android:icon="@mipmap/icon_name"
   ```
- 
- 
- 
- 
- 
+Define the icon for android application
+<application android:icon="drawable resource">
+.... 
+</application> 
+https://developer.android.com/guide/topics/manifest/application-element.html
+
+If your app available across large range of devices
+You should create separate icons for all generalized screen densities, including low-, medium-, high-, and extra-high-density screens. This ensures that your icons will display properly across the range of devices on which your application can be installed...
+
+enter image description here
+
+Size & Format
+Launcher icons should be 32-bit PNGs with an alpha channel for transparency. The finished launcher icon dimensions corresponding to a given generalized screen density are shown in the table below.
+
+enter image description here
+
+Place icon in mipmap or drawable folder
+android:icon="@drawable/icon_name" or android:icon="@mipmap/icon_name"
+
+developer.android.com/guide says,
+
+This attribute must be set as a reference to a drawable resource containing the image (for example "@drawable/icon").
+
+about launcher icons android-developers.googleblog.com says,
+
+It’s best practice to place your app icons in mipmap- folders (not the drawable- folders) because they are used at resolutions different from the device’s current density. For example, an xxxhdpi app icon can be used on the launcher for an xxhdpi device.
+
+Dianne Hackborn from Google (Android Framework) says,
+
+If you are building different versions of your app for different densities, you should know about the "mipmap" resource directory. This is exactly like "drawable" resources, except it does not participate in density stripping when creating the different apk targets.
+
+For launcher icons, the AndroidManifest.xml file must reference the mipmap/ location
+ ```
+<application android:name="ApplicationTitle"
+         android:label="@string/app_label"
+         android:icon="@mipmap/ic_launcher" >
+         
+          ```
