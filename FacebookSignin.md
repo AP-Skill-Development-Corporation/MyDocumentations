@@ -63,12 +63,63 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 
 ```
+2. In your sign-in activity's onCreate method, get the shared instance of the FirebaseAuth object:
+
+```
+private FirebaseAuth mAuth;
+// ...
+// Initialize Firebase Auth
+mAuth = FirebaseAuth.getInstance();
+
+```
+3. When initializing your Activity, check to see if the user is currently signed in:
+
+```
+@Override
+public void onStart() {
+    super.onStart();
+    // Check if user is signed in (non-null) and update UI accordingly.
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+    updateUI(currentUser);
+}
+
+```
+4. After a user successfully signs in, in the LoginButton's onSuccess callback method, get an access token for the signed-in user, exchange it for a 
+Firebase credential, and authenticate with Firebase using the Firebase credential:
+
+```
+private void handleFacebookAccessToken(AccessToken token) {
+    Log.d(TAG, "handleFacebookAccessToken:" + token);
+
+    AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+    mAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        updateUI(user);
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                        Toast.makeText(FacebookLoginActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                        updateUI(null);
+                    }
+
+                    // ...
+                }
+            });
+}
+
+```
+If the call to signInWithCredential succeeds, you can use the getCurrentUser method to get the user's account data.
 
 ```
 
 ```
-
-
 
 
 
