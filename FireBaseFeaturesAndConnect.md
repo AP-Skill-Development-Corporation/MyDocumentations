@@ -93,6 +93,12 @@ It is a perfect tool for referrals and sharing. Get the help of our users to dev
 
 We can manage information campaigns very easily, including the ability to set and schedule messages to engage users at the right time of day. These notifications are completely free. These are unlimited for both iOS and Android. There is only one dashboard to worry about, and if we integrate with Firebase Analytics, we can use various user segmentation features.
 
+# Increase Your Earnings
+
+Of course, the thing about having an app or any other business strategy is that we can increase our earnings. With the feature of AdMob, we can monetize our app, considering the best possible experience for our users. Showing real-time ads to millions of Google advertisers, choosing a format which suits our app, and working with over 40 top ads networks using AdMob Mediation, we can make app development well worth it, while speaking silently.
+
+We can also cross-promote between our apps with AdMob House ads for free!
+
 
 
 
