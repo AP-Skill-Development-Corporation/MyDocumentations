@@ -11,8 +11,19 @@ You can let your users authenticate with Firebase using their Facebook accounts 
 
 3.Add the dependency for the Firebase Authentication Android library to your module (app-level) Gradle file (usually app/build.gradle):
 
+```
+implementation 'com.google.firebase:firebase-auth:19.3.2'
+
+```
 
 
+```
+
+```
+
+```
+
+```
 
 
 
