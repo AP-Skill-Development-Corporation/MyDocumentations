@@ -25,6 +25,9 @@ b. On the Sign in method tab, enable the Facebook sign-in method and specify the
 
 c. Then, make sure your OAuth redirect URI (e.g. my-app-12345.firebaseapp.com/__/auth/handler) is listed as one of your OAuth redirect URIs in your Facebook app's settings page on the Facebook for Developers site in the Product Settings > Facebook Login config.
 
+# Authenticate with Firebase
+
+1. Integrate Facebook Login into your app by following the developer's documentation. When you configure the LoginButton or LoginManager object, request the public_profile and email permissions. If you integrated Facebook Login using a LoginButton, your sign-in activity has code similar to the following:
 
 ```
 
