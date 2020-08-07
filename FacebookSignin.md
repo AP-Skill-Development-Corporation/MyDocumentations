@@ -30,6 +30,37 @@ c. Then, make sure your OAuth redirect URI (e.g. my-app-12345.firebaseapp.com/__
 1. Integrate Facebook Login into your app by following the developer's documentation. When you configure the LoginButton or LoginManager object, request the public_profile and email permissions. If you integrated Facebook Login using a LoginButton, your sign-in activity has code similar to the following:
 
 ```
+// Initialize Facebook Login button
+mCallbackManager = CallbackManager.Factory.create();
+LoginButton loginButton = mBinding.buttonFacebookLogin;
+loginButton.setReadPermissions("email", "public_profile");
+loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+    @Override
+    public void onSuccess(LoginResult loginResult) {
+        Log.d(TAG, "facebook:onSuccess:" + loginResult);
+        handleFacebookAccessToken(loginResult.getAccessToken());
+    }
+
+    @Override
+    public void onCancel() {
+        Log.d(TAG, "facebook:onCancel");
+        // ...
+    }
+
+    @Override
+    public void onError(FacebookException error) {
+        Log.d(TAG, "facebook:onError", error);
+        // ...
+    }
+});
+// ...
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    // Pass the activity result back to the Facebook SDK
+    mCallbackManager.onActivityResult(requestCode, resultCode, data);
+}
 
 ```
 
