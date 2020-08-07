@@ -130,15 +130,15 @@ If the call to signInWithCredential succeeds you can use the getCurrentUser meth
 
 # Next steps
 
-After a user signs in for the first time, a new user account is created and linked to the credentials—that is, the user name and password, phone number, or auth provider information—the user signed in with. This new account is stored as part of your Firebase project, and can be used to identify a user across every app in your project, regardless of how the user signs in.
+* After a user signs in for the first time, a new user account is created and linked to the credentials—that is, the user name and password, phone number, or auth provider information—the user signed in with. This new account is stored as part of your Firebase project, and can be used to identify a user across every app in your project, regardless of how the user signs in.
 
-. In your apps, you can get the user's basic profile information from the FirebaseUser object. See Manage Users.
+* In your apps, you can get the user's basic profile information from the FirebaseUser object. See Manage Users.
 
-. In your Firebase Realtime Database and Cloud Storage Security Rules, you can get the signed-in user's unique user ID from the auth variable, and use it to control what data a user can access.
+* In your Firebase Realtime Database and Cloud Storage Security Rules, you can get the signed-in user's unique user ID from the auth variable, and use it to control what data a user can access.
 
 You can allow users to sign in to your app using multiple authentication providers by linking auth provider credentials to an existing user account.
 
-To sign out a user, call signOut:
+# To sign out a user, call signOut:
 
 ```
 FirebaseAuth.getInstance().signOut();
