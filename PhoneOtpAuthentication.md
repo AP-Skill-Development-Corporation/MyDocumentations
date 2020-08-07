@@ -73,26 +73,135 @@ auth.setLanguageCode("fr");
 // auth.useAppLanguage();
 
 ```
+When you call PhoneAuthProvider.verifyPhoneNumber, you must also provide an instance of OnVerificationStateChangedCallbacks, which contains implementations of the callback functions that handle the results of the request. For example:
 
+```
+mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
+    @Override
+    public void onVerificationCompleted(PhoneAuthCredential credential) {
+        // This callback will be invoked in two situations:
+        // 1 - Instant verification. In some cases the phone number can be instantly
+        //     verified without needing to send or enter a verification code.
+        // 2 - Auto-retrieval. On some devices Google Play services can automatically
+        //     detect the incoming verification SMS and perform verification without
+        //     user action.
+        Log.d(TAG, "onVerificationCompleted:" + credential);
 
+        signInWithPhoneAuthCredential(credential);
+    }
 
+    @Override
+    public void onVerificationFailed(FirebaseException e) {
+        // This callback is invoked in an invalid request for verification is made,
+        // for instance if the the phone number format is not valid.
+        Log.w(TAG, "onVerificationFailed", e);
+
+        if (e instanceof FirebaseAuthInvalidCredentialsException) {
+            // Invalid request
+            // ...
+        } else if (e instanceof FirebaseTooManyRequestsException) {
+            // The SMS quota for the project has been exceeded
+            // ...
+        }
+
+        // Show a message and update the UI
+        // ...
+    }
+
+    @Override
+    public void onCodeSent(@NonNull String verificationId,
+                           @NonNull PhoneAuthProvider.ForceResendingToken token) {
+        // The SMS verification code has been sent to the provided phone number, we
+        // now need to ask the user to enter the code and then construct a credential
+        // by combining the code with a verification ID.
+        Log.d(TAG, "onCodeSent:" + verificationId);
+
+        // Save verification ID and resending token so we can use them later
+        mVerificationId = verificationId;
+        mResendToken = token;
+
+        // ...
+    }
+};
 
 ```
 
+# Verification callbacks
+
+In most apps, you implement the onVerificationCompleted, onVerificationFailed, and onCodeSent callbacks. You might also implement onCodeAutoRetrievalTimeOut, depending on your app's requirements.
+
+## onVerificationCompleted(PhoneAuthCredential)
+
+. This method is called in two situations:
+
+. Instant verification: in some cases the phone number can be instantly verified without needing to send or enter a verification code.
+Auto-retrieval: on some devices, Google Play services can automatically detect the incoming verification SMS and perform verification without user action. (This capability might be unavailable with some carriers.)
+
+In either case, the user's phone number has been verified successfully, and you can use the PhoneAuthCredential object that's passed to the callback to sign in the user.
+
+## onVerificationFailed(FirebaseException)
+
+This method is called in response to an invalid verification request, such as a request that specifies an invalid phone number or verification code.
+
+## onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken)
+
+Optional. This method is called after the verification code has been sent by SMS to the provided phone number.
+
+When this method is called, most apps display a UI that prompts the user to type the verification code from the SMS message. (At the same time, auto-verification might be proceeding in the background.) Then, after the user types the verification code, you can use the verification code and the verification ID that was passed to the method to create a PhoneAuthCredential object, which you can in turn use to sign in the user. However, some apps might wait until onCodeAutoRetrievalTimeOut is called before displaying the verification code UI (not recommended).
+
+## onCodeAutoRetrievalTimeOut(String verificationId)
+
+Optional. This method is called after the timeout duration specified to verifyPhoneNumber has passed without onVerificationCompleted triggering first. On devices without SIM cards, this method is called immediately because SMS auto-retrieval isn't possible.
+
+Some apps block user input until the auto-verification period has timed out, and only then display a UI that prompts the user to type the verification code from the SMS message (not recommended).
+
+This method is called in response to an invalid verification request, such as a request that specifies an invalid phone number or verification code.
+
+onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken)
+Optional. This method is called after the verification code has been sent by SMS to the provided phone number.
+
+When this method is called, most apps display a UI that prompts the user to type the verification code from the SMS message. (At the same time, auto-verification might be proceeding in the background.) Then, after the user types the verification code, you can use the verification code and the verification ID that was passed to the method to create a PhoneAuthCredential object, which you can in turn use to sign in the user. However, some apps might wait until onCodeAutoRetrievalTimeOut is called before displaying the verification code UI (not recommended).
+
+# onCodeAutoRetrievalTimeOut(String verificationId)
+
+Optional. This method is called after the timeout duration specified to verifyPhoneNumber has passed without onVerificationCompleted triggering first. On devices without SIM cards, this method is called immediately because SMS auto-retrieval isn't possible.
+
+Some apps block user input until the auto-verification period has timed out, and only then display a UI that prompts the user to type the verification code from the SMS message (not recommended).
+
+```
+PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+
 ```
 
+To prevent abuse, Firebase enforces a limit on the number of SMS messages that can be sent to a single phone number within a period of time. If you exceed this limit, phone number verification requests might be throttled. If you encounter this issue during development, use a different phone number for testing, or try the request again later.
 
+# Sign in the user
 
-
-```
-
-```
-
-
-
-
+After you get a PhoneAuthCredential object, whether in the onVerificationCompleted callback or by calling PhoneAuthProvider.getCredential, complete the sign-in flow by passing the PhoneAuthCredential object to FirebaseAuth.signInWithCredential:
 
 ```
+
+private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+    mAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success");
+
+                        FirebaseUser user = task.getResult().getUser();
+                        // ...
+                    } else {
+                        // Sign in failed, display a message and update the UI
+                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                        if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                            // The verification code entered was invalid
+                        }
+                    }
+                }
+            });
+}
 
 ```
