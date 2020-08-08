@@ -99,6 +99,46 @@ Of course, the thing about having an app or any other business strategy is that 
 
 We can also cross-promote between our apps with AdMob House ads for free!
 
+# Connect an Android app to FireBase
+
+how to connect an Android app to Firebase
+
+# Step 1
+
+Open Firebase Console and click on Add Project.
+
+# Step 2
+
+Enter your project name, check the user agreement and click on Continue.
+
+# Step 3
+
+Make sure the option Enable Google Analytics for this project is enabled. Click Continue.
+
+# Step 4
+
+On the Configure Google Analytics screen, select Default Account for Firebase from the dropdown and click Create project.
+
+# Step 5
+
+Now, click on the Android icon to proceed with adding your Android app to this Firebase project.
+
+# Step 6
+
+Enter the package name of your app and click on Register app.
+
+# Step 7
+
+Click on the Download google-services.json button and once the JSON file gets downloaded, place it inside the app folder of your Android project.
+
+# Step 8
+
+Click on next and it will show you the dependencies that you need to add to your Android project.
+
+Copy the dependency marked with number 1 to your project level build.gradle file and copy the dependencies marked with number 2 and 3 to your app level build.gradle file as shown in the screenshots below.
+
+
+
 
 
 
