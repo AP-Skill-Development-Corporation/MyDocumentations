@@ -107,35 +107,62 @@ how to connect an Android app to Firebase
 
 Open Firebase Console and click on Add Project.
 
+![pic1](https://user-images.githubusercontent.com/51777024/89710452-d208ac80-d9a0-11ea-9bde-e13d87f365b7.png)
+
+
 # Step 2
 
 Enter your project name, check the user agreement and click on Continue.
+
+![pic2](https://user-images.githubusercontent.com/51777024/89710453-d5039d00-d9a0-11ea-86bd-1be487f87851.png)
+
 
 # Step 3
 
 Make sure the option Enable Google Analytics for this project is enabled. Click Continue.
 
+![pic3](https://user-images.githubusercontent.com/51777024/89710455-d92fba80-d9a0-11ea-976f-aba4a9407207.png)
+
+
 # Step 4
 
 On the Configure Google Analytics screen, select Default Account for Firebase from the dropdown and click Create project.
+
+![pic4](https://user-images.githubusercontent.com/51777024/89710457-dc2aab00-d9a0-11ea-8c7e-823c2782d2e6.png)
+
 
 # Step 5
 
 Now, click on the Android icon to proceed with adding your Android app to this Firebase project.
 
+![pic5](https://user-images.githubusercontent.com/51777024/89710458-df259b80-d9a0-11ea-8952-5b9846f96d25.png)
+
 # Step 6
 
 Enter the package name of your app and click on Register app.
+
+![pic6](https://user-images.githubusercontent.com/51777024/89710459-e187f580-d9a0-11ea-9cc4-1a59b9086012.png)
+
 
 # Step 7
 
 Click on the Download google-services.json button and once the JSON file gets downloaded, place it inside the app folder of your Android project.
 
+![pic7](https://user-images.githubusercontent.com/51777024/89710463-e3ea4f80-d9a0-11ea-95f9-c9f1de528bf5.png)
+
+
 # Step 8
 
 Click on next and it will show you the dependencies that you need to add to your Android project.
 
+![pic8](https://user-images.githubusercontent.com/51777024/89710467-e6e54000-d9a0-11ea-89c0-134511145afc.png)
+
+
 Copy the dependency marked with number 1 to your project level build.gradle file and copy the dependencies marked with number 2 and 3 to your app level build.gradle file as shown in the screenshots below.
+
+![pic9](https://user-images.githubusercontent.com/51777024/89710468-e9479a00-d9a0-11ea-8996-98b7165120c4.png)
+
+Finally, click on Sync Now in the bar that appears in Android Studio.
 
 
 
