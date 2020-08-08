@@ -164,10 +164,33 @@ Copy the dependency marked with number 1 to your project level build.gradle file
 
 Finally, click on Sync Now in the bar that appears in Android Studio.
 
+We will be using FirebaseUI Auth module for integrating Email and Google authentication in our Android app.
 
+Add the following dependency to your app-level build.gradle file to use FirebaseUI Auth.
 
+```
+implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
 
+```
+# Email Authentication
 
+Go to Firebase Console, select your project and click on Authentication tab. Click on Sign-in method, select Email/Password and enable it.
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
 
 
 
