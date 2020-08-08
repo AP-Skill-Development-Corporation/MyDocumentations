@@ -176,9 +176,15 @@ implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
 
 Go to Firebase Console, select your project and click on Authentication tab. Click on Sign-in method, select Email/Password and enable it.
 
-```
+Now add the following permission to your manifest file.
 
 ```
+<uses-permission android:name="android.permission.INTERNET"/>
+
+```
+
+
+
 
 ```
 
