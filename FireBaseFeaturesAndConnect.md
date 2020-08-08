@@ -176,7 +176,7 @@ implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
 
 Go to Firebase Console, select your project and click on Authentication tab. Click on Sign-in method, select Email/Password and enable it.
 
-
+![save](https://user-images.githubusercontent.com/51777024/89710692-e8176c80-d9a2-11ea-8644-2f9f426d0cc4.png)
 
 Now add the following permission to your manifest file.
 
@@ -185,18 +185,64 @@ Now add the following permission to your manifest file.
 
 ```
 
+# Check Current Auth State
 
+Declare an instance of FirebaseAuth
 
+```
+private FirebaseAuth mAuth;
 
 ```
 
+# In the onCreate() method, initialize the FirebaseAuth instance.
+
 ```
+// Initialize Firebase Auth
+mAuth = FirebaseAuth.getInstance();
 
 ```
 
-```
+# Sign up new Users
+
+Create a new createAccount method which takes in an email address and password, validates them and then creates a new user with the createUserWithEmailAndPassword method.
 
 ```
+mAuth.createUserWithEmailAndPassword(email, password)
+        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Toast Here
+                } else {
+                    Toast Here
+                }
+
+                // ...
+            }
+        });
+
+```
+Add a form to register new users with their email and password and call this new method when it is submitted. You can see an example in our quickstart sample .
+
+# Sign In Existing Users
+
+Create a new signIn method which takes in an email address and password, validates them, and then signs a user in with the signInWithEmailAndPassword method.
+
+```
+
+mAuth.signInWithEmailAndPassword(email, password)
+        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    //Toast here
+                } else {
+                   //Toast here
+                }
+
+                // ...
+            }
+        });
 
 ```
 
