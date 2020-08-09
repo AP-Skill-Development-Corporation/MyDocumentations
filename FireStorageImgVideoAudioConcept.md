@@ -1,3 +1,6 @@
+
+# Get Started with Cloud Storage on Android
+
 # Upload Files on Android
 
 Cloud Storage allows developers to quickly and easily upload files to a Google Cloud Storage bucket provided and managed by Firebase.
@@ -28,7 +31,7 @@ Once you've created an appropriate reference, you then call the putBytes(), putF
 
 You cannot upload data with a reference to the root of your Google Cloud Storage bucket. Your reference must point to a child URL.
 
-# Upload from data in memory
+## Upload from data in memory
 
 The putBytes() method is the simplest way to upload a file to Cloud Storage. putBytes() takes a byte[] and returns an UploadTask that you can use to manage and monitor the status of the upload.
 
@@ -58,7 +61,7 @@ uploadTask.addOnFailureListener(new OnFailureListener() {
 ```
 Because putBytes() accepts a byte[], it requires your app to hold the entire contents of a file in memory at once. Consider using putStream() or putFile() to use less memory.
 
-# Upload from a stream
+## Upload from a stream
 
 The putStream() method is the most versatile way to upload a file to Cloud Storage. putStream() takes an InputStream and returns an UploadTask that you can use to manage and monitor the status of the upload.
 
@@ -80,7 +83,7 @@ uploadTask.addOnFailureListener(new OnFailureListener() {
 });
 
 ```
-# Upload from a local file
+## Upload from a local file
 
 You can upload local files on the device, such as photos and videos from the camera, with the putFile() method. putFile() takes a File and returns an UploadTask which you can use to manage and monitor the status of the upload.
 
@@ -104,7 +107,7 @@ uploadTask.addOnFailureListener(new OnFailureListener() {
 });
 
 ```
-# Get a download URL
+## Get a download URL
 
 After uploading a file, you can get a URL to download the file by calling the getDownloadUrl() method on the StorageReference:
 
@@ -136,7 +139,7 @@ Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.Task
 });
 
 ```
-# Add File Metadata
+## Add File Metadata
 
 You can also include metadata when you upload files. This metadata contains typical file metadata properties such as name, size, and contentType (commonly referred to as MIME type). The putFile() method automatically infers the MIME type from the File extension, but you can override the auto-detected type by specifying contentType in the metadata. If you do not provide a contentType and Cloud Storage cannot infer a default from the file extension, Cloud Storage uses application/octet-stream. See the Use File Metadata section for more information about file metadata.
 
@@ -152,7 +155,7 @@ uploadTask = storageRef.child("images/mountains.jpg").putFile(file, metadata);
 
 
 ```
-# Manage Uploads
+## Manage Uploads
 
 In addition to starting uploads, you can pause, resume, and cancel uploads using the pause(), resume(), and cancel() methods. Pause and resume events raise pause and progress state changes respectively. Canceling an upload causes the upload to fail with an error indicating that the upload was canceled.
 
@@ -169,59 +172,59 @@ uploadTask.resume();
 uploadTask.cancel();
 
 ```
-# Monitor Upload Progress
+## Monitor Upload Progress
 
 You can add listeners to handle success, failure, progress, or pauses in your upload task:
 
 
-## ListenerType(OnProgressListener):
+### ListenerType(OnProgressListener):
 
 This listener is called periodically as data is transferred and can be used to populate an upload/download indicator.
 
-## ListenerType(OnPausedListener):
+### ListenerType(OnPausedListener):
 
 This listener is called any time the task is paused.
 
-## ListenerType(OnSuccessListener):
+### ListenerType(OnSuccessListener):
 
 This listener is called when the task has successfully completed.
 
-## ListenerType(OnFailureListener):
+### ListenerType(OnFailureListener):
 
 This listener is called any time the upload has failed. This can happen due to network timeouts, authorization failures, or if you cancel the task.
 
 OnFailureListener is called with an Exception instance. Other listeners are called with an UploadTask.TaskSnapshot object. This object is an immutable view of the task at the 
 time the event occurred. An UploadTask.TaskSnapshot contains the following properties:
 
-## getDownloadUrl	Type(String):
+### getDownloadUrl	Type(String):
 
 A URL that can be used to download the object. This is a public unguessable URL that can be shared with other clients. This value is populated once an upload is complete.
 
-## getError	Type(Exception):
+### getError	Type(Exception):
 
 If the task failed, this will have the cause as an Exception.
 
-## getBytesTransferred	Type(long):
+### getBytesTransferred	Type(long):
 
 The total number of bytes that have been transferred when this snapshot was taken.
 
-## getTotalByteCount	Type(long):
+### getTotalByteCount	Type(long):
 
 The total number of bytes expected to be uploaded.
 
-## getUploadSessionUri	Type(String):
+### getUploadSessionUri	Type(String):
 
 A URI that can be used to continue this task via another call to putFile.
 
-## getMetadata	Type(StorageMetadata):
+### getMetadata	Type(StorageMetadata):
 
 Before an upload completes, this is the metadata being sent to the server. After the upload completes, this is the metadata returned by the server.
 
-## getTask	Type(UploadTask):
+### getTask	Type(UploadTask):
 
 The task that created this snapshot. Use this task to cancel, pause, or resume the upload.
 
-## getStorage	Type(StorageReference):
+### getStorage	Type(StorageReference):
 
 The StorageReference used to create the UploadTask.
 
@@ -243,7 +246,7 @@ uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>
 });
 
 ```
-# Handle Activity Lifecycle Changes
+## Handle Activity Lifecycle Changes
 
 Uploads continue in the background even after activity lifecycle changes (such as presenting a dialog or rotating the screen). Any listeners you had attached will also remain attached. This could cause unexpected results if they get called after the activity is stopped.
 
@@ -293,7 +296,7 @@ protected void onRestoreInstanceState(Bundle savedInstanceState) {
 ```
 getActiveUploadTasks retrieves all active upload tasks at and below the provided reference, so you may need to handle multiple tasks.
 
-# Continuing Uploads Across Process Restarts
+## Continuing Uploads Across Process Restarts
 
 If your process is shut down, any uploads in progress will be interrupted. However, you can continue uploading once the process restarts by resuming the upload session with the server. This can save time and bandwidth by not starting the upload from the start of the file.
 
@@ -325,11 +328,459 @@ uploadTask = mStorageRef.putFile(localFile,
 ```
 Sessions last one week. If you attempt to resume a session after it has expired or if it had experienced an error, you will receive a failure callback. It is your responsibility to ensure the file has not changed between uploads.
 
-# Error Handling
+## Error Handling
 
 There are a number of reasons why errors may occur on upload, including the local file not existing, or the user not having permission to upload the desired file. You can find more information about errors in the Handle Errors section of the docs.
 
-# Full Example
+## Full Example
 
 A full example of an upload with progress monitoring and error handling is shown below:
+
+```
+// Observe state change events such as progress, pause, and resume
+uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+    @Override
+    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+        System.out.println("Upload is " + progress + "% done");
+    }
+}).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+    @Override
+    public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+        System.out.println("Upload is paused");
+    }
+});
+
+```
+
+# Download Files on Android
+
+Cloud Storage allows developers to quickly and easily download files from a Google Cloud Storage bucket provided and managed by Firebase.
+
+### Note: By default, Cloud Storage buckets require Firebase Authentication to download files. You can change your Firebase Security Rules for Cloud Storage to allow unauthenticated access. Since the default Google App Engine app and Firebase share this bucket, configuring public access may make newly uploaded App Engine files publicly accessible as well. Be sure to restrict access to your Storage bucket again when you set up authentication.
+
+## Create a Reference
+
+To download a file, first create a Cloud Storage reference to the file you want to download.
+
+You can create a reference by appending child paths to the storage root, or you can create a reference from an existing gs:// or https:// URL referencing an object in Cloud Storage.
+
+```
+// Create a storage reference from our app
+StorageReference storageRef = storage.getReference();
+
+// Create a reference with an initial file path and name
+StorageReference pathReference = storageRef.child("images/stars.jpg");
+
+// Create a reference to a file from a Google Cloud Storage URI
+StorageReference gsReference = storage.getReferenceFromUrl("gs://bucket/images/stars.jpg");
+
+// Create a reference from an HTTPS URL
+// Note that in the URL, characters are URL escaped!
+StorageReference httpsReference = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/b/bucket/o/images%20stars.jpg");
+
+```
+# Download Files
+
+Once you have a reference, you can download files from Cloud Storage by calling the getBytes() or getStream(). If you prefer to download the file with another library, you can get a download URL with getDownloadUrl().
+
+## Download in memory
+
+Download the file to a byte[] with the getBytes() method. This is the easiest way to download a file, but it must load the entire contents of your file into memory. If you request a file larger than your app's available memory, your app will crash. To protect against memory issues, getBytes() takes a maximum amount of bytes to download. Set the maximum size to something you know your app can handle, or use another download method.
+
+```
+StorageReference islandRef = storageRef.child("images/island.jpg");
+
+final long ONE_MEGABYTE = 1024 * 1024;
+islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+    @Override
+    public void onSuccess(byte[] bytes) {
+        // Data for "images/island.jpg" is returns, use this as needed
+    }
+}).addOnFailureListener(new OnFailureListener() {
+    @Override
+    public void onFailure(@NonNull Exception exception) {
+        // Handle any errors
+    }
+});
+
+```
+## Download to a local file
+
+The getFile() method downloads a file directly to a local device. Use this if your users want to have access to the file while offline or to share the file in a different app. getFile() returns a DownloadTask which you can use to manage your download and monitor the status of the download.
+
+```
+islandRef = storageRef.child("images/island.jpg");
+
+File localFile = File.createTempFile("images", "jpg");
+
+islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+    @Override
+    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+        // Local temp file has been created
+    }
+}).addOnFailureListener(new OnFailureListener() {
+    @Override
+    public void onFailure(@NonNull Exception exception) {
+        // Handle any errors
+    }
+});
+
+```
+If you want to actively manage your download, see Manage Downloads for more information.
+
+## Download Data via URL
+
+If you already have download infrastructure based around URLs, or just want a URL to share, you can get the download URL for a file by calling the getDownloadUrl() method on a storage reference.
+
+```
+storageRef.child("users/me/profile.png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+    @Override
+    public void onSuccess(Uri uri) {
+        // Got the download URL for 'users/me/profile.png'
+    }
+}).addOnFailureListener(new OnFailureListener() {
+    @Override
+    public void onFailure(@NonNull Exception exception) {
+        // Handle any errors
+    }
+});
+
+```
+## Downloading Images with FirebaseUI
+
+FirebaseUI provides simple, customizable, and production-ready native mobile bindings to eliminate boilerplate code and promote Google best practices. Using FirebaseUI you can quickly and easily download, cache, and display images from Cloud Storage using our integration with Glide.
+
+First, add FirebaseUI to your app/build.gradle:
+
+```
+dependencies {
+    // FirebaseUI Storage only
+    implementation 'com.firebaseui:firebase-ui-storage:6.2.0'
+}
+
+```
+Then you can load images directly from Storage into an ImageView:
+
+```
+// Reference to an image file in Cloud Storage
+StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
+// ImageView in your Activity
+ImageView imageView = findViewById(R.id.imageView);
+
+// Download directly from StorageReference using Glide
+// (See MyAppGlideModule for Loader registration)
+Glide.with(this /* context */)
+        .load(storageReference)
+        .into(imageView);
+        
+```
+## Handle Activity Lifecycle Changes
+
+Downloads continue in the background even after activity lifecycle changes (such as presenting a dialog or rotating the screen). Any listeners you had attached will also remain attached. This could cause unexpected results if they get called after the activity is stopped.
+
+You can solve this problem by subscribing your listeners with an activity scope to automatically unregister them when the activity stops. Then, use the getActiveDownloadTasks method when the activity restarts to obtain download tasks that are still running or recently completed.
+
+The example below demonstrates this and also shows how to persist the storage reference path used.
+
+
+```
+@Override
+protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+
+    // If there's a download in progress, save the reference so you can query it later
+    if (mStorageRef != null) {
+        outState.putString("reference", mStorageRef.toString());
+    }
+}
+
+@Override
+protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+
+    // If there was a download in progress, get its reference and create a new StorageReference
+    final String stringRef = savedInstanceState.getString("reference");
+    if (stringRef == null) {
+        return;
+    }
+    mStorageRef = FirebaseStorage.getInstance().getReferenceFromUrl(stringRef);
+
+    // Find all DownloadTasks under this StorageReference (in this example, there should be one)
+    List<FileDownloadTask> tasks = mStorageRef.getActiveDownloadTasks();
+    if (tasks.size() > 0) {
+        // Get the task monitoring the download
+        FileDownloadTask task = tasks.get(0);
+
+        // Add new listeners to the task using an Activity scope
+        task.addOnSuccessListener(this, new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot state) {
+                // Success!
+                // ...
+            }
+        });
+    }
+}
+
+```
+## Handle Errors
+
+There are a number of reasons why errors may occur on download, including the file not existing, or the user not having permission to access the desired file. More information on errors can be found in the Handle Errors section of the docs.
+
+## Full Example
+
+A full example of a download with error handling is shown below:
+
+```
+storageRef.child("users/me/profile.png").getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+    @Override
+    public void onSuccess(byte[] bytes) {
+        // Use the bytes to display the image
+    }
+}).addOnFailureListener(new OnFailureListener() {
+    @Override
+    public void onFailure(@NonNull Exception exception) {
+        // Handle any errors
+    }
+});
+
+```
+# Delete Files on Android
+
+you can also delete files from Cloud Storage.
+
+### Note: By default, Cloud Storage buckets require Firebase Authentication to delete files. You can change your Firebase Security Rules for Cloud Storage to allow unauthenticated access. Since the default Google App Engine app and Firebase share this bucket, configuring public access may make newly uploaded App Engine files publicly accessible as well. Be sure to restrict access to your Storage bucket again when you set up authentication.
+
+# Delete a File
+
+To delete a file, first create a reference. to that file. Then call the delete() method on that reference.
+
+```
+// Create a storage reference from our app
+StorageReference storageRef = storage.getReference();
+
+// Create a reference to the file to delete
+StorageReference desertRef = storageRef.child("images/desert.jpg");
+
+// Delete the file
+desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+    @Override
+    public void onSuccess(Void aVoid) {
+        // File deleted successfully
+    }
+}).addOnFailureListener(new OnFailureListener() {
+    @Override
+    public void onFailure(@NonNull Exception exception) {
+        // Uh-oh, an error occurred!
+    }
+});
+
+```
+### Note: Deleting a file is a permanent action! If you care about restoring deleted files, make sure to back up your files, or enable Object Versioning on your Google Cloud Storage bucket.
+
+# Handle Errors
+
+There are a number of reasons why errors may occur on file deletes, including the file not existing, or the user not having permission to delete the desired file. More information on errors can be found in the Handle Errors section of the docs.
+
+## List Files on Android
+
+Cloud Storage allows you to list the contents of your Storage Bucket. The SDKs return both the items and the prefixes of objects under the current Storage reference.
+
+Projects that use the List API require Firebase Storage Rules Version 2. If you have an existing Firebase Project, please follow the steps in the Security Rules Guide.
+
+### Note: The List API is only allowed for Rules version 2. In Rules version 2, allow read is the shorthand for allow get, list.
+
+List() uses Google Cloud Storage’s List API. In Firebase Storage, we use / as a delimiter, which allows us to emulate file system semantics. To allow for efficient traversal of large, hierarchical Storage Buckets, the List API returns prefixes and items separately. For example, if you upload one file /images/uid/file1,
+
+* root.child('images').listAll() will return /images/uid as a prefix.
+
+* root.child('images/uid').listAll() will return the file as an item.
+
+The Firebase Storage SDK does not return object paths that contain two consecutive /s or end with a /.. For example, if a bucket has the following objects:
+
+* correctPrefix/happyItem
+
+* wrongPrefix//sadItem
+
+* lonelyItem/
+
+List operations on items in this bucket will give the following results:
+
+* The list operation at the root returns the references to correctPrefix, wrongPrefix and lonelyItem as prefixes.
+
+* The list operation at the correctPrefix/ returns the references to correctPrefix/happyItem as items.
+
+* The list operation at the wrongPrefix/ doesn't return any references because wrongPrefix//sadItem contains two consecutive /s.
+
+* The list operation at the lonelyItem/ doesn't return any references because the object lonelyItem/ ends with /.
+
+## List all files
+
+You can use listAll to fetch all results for a directory. This is best used for small directories as all results are buffered in memory. The operation also may not return a consistent snapshot if objects are added or removed during the process.
+
+For a large list, use the paginated list() method as listAll() buffers all results in memory.
+
+The following example demonstrates listAll.
+
+```
+StorageReference listRef = storage.getReference().child("files/uid");
+
+listRef.listAll()
+        .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+            @Override
+            public void onSuccess(ListResult listResult) {
+                for (StorageReference prefix : listResult.getPrefixes()) {
+                    // All the prefixes under listRef.
+                    // You may call listAll() recursively on them.
+                }
+
+                for (StorageReference item : listResult.getItems()) {
+                    // All the items under listRef.
+                }
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Uh-oh, an error occurred!
+            }
+        });
+```
+## Paginate list results
+
+The list() API places a limit on the number of results it returns. list() provides a consistent pageview and exposes a pageToken that allows control over when to fetch additional results.
+
+The pageToken encodes the path and version of the last item returned in the previous result. In a subsequent request using the pageToken, items that come after the pageToken are shown.
+
+The following example demonstrates paginating a result:
+
+```
+public void listAllPaginated(@Nullable String pageToken) {
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference listRef = storage.getReference().child("files/uid");
+
+    // Fetch the next page of results, using the pageToken if we have one.
+    Task<ListResult> listPageTask = pageToken != null
+            ? listRef.list(100, pageToken)
+            : listRef.list(100);
+
+    listPageTask
+            .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                @Override
+                public void onSuccess(ListResult listResult) {
+                    List<StorageReference> prefixes = listResult.getPrefixes();
+                    List<StorageReference> items = listResult.getItems();
+
+                    // Process page of results
+                    // ...
+
+                    // Recurse onto next page
+                    if (listResult.getPageToken() != null) {
+                        listAllPaginated(listResult.getPageToken());
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Uh-oh, an error occurred.
+                }
+            });
+}
+
+```
+# Handle errors
+
+list() and listAll() fail if you haven't upgraded the Security Rules to version 2. Upgrade your Security Rules if you see this error:
+
+```
+Listing objects in a bucket is disallowed for rules_version = "1".
+Please update storage security rules to rules_version = "2" to use list.
+
+```
+## Handle Errors on Android
+
+Sometimes things don't go as planned and an error occurs.
+
+When in doubt, check the error returned and see what the error message says. The following code shows a custom error handler implementation that inspects the error code and error message returned by Firebase Storage. Such error handlers can be added to various objects used in the Storage API (for example, UploadTask and FileDownloadTask).
+
+```
+class MyFailureListener implements OnFailureListener {
+    @Override
+    public void onFailure(@NonNull Exception exception) {
+        int errorCode = ((StorageException) exception).getErrorCode();
+        String errorMessage = exception.getMessage();
+        // test the errorCode and errorMessage, and handle accordingly
+    }
+}
+
+```
+If you've checked the error message and have Storage Security Rules that allow your action, but are still struggling to fix the error, visit our Support page and let us know how we can help.
+
+## Handle Error Messages
+
+There are a number of reasons why errors may occur, including the file not existing, the user not having permission to access the desired file, or the user cancelling the file upload.
+
+To properly diagnose the issue and handle the error, here is a full list of all the errors our client will raise, and how they can occur. Error codes in this table are defined in the StorageException class as integer constants.
+
+### ERROR_UNKNOWN	An unknown error occurred.
+
+### ERROR_OBJECT_NOT_FOUND	No object exists at the desired reference.
+
+### ERROR_BUCKET_NOT_FOUND	No bucket is configured for Cloud Storage
+
+### ERROR_PROJECT_NOT_FOUND	No project is configured for Cloud Storage
+
+### ERROR_QUOTA_EXCEEDED	Quota on your Cloud Storage bucket has been exceeded. If you're on the free tier, upgrade to a paid plan. If you're on a paid plan, reach out to Firebase support.
+
+### ERROR_NOT_AUTHENTICATED	User is unauthenticated, please authenticate and try again.
+
+### ERROR_NOT_AUTHORIZED	User is not authorized to perform the desired action, check your rules to ensure they are correct.
+
+### ERROR_RETRY_LIMIT_EXCEEDED	The maximum time limit on an operation (upload, download, delete, etc.) has been excceded. Try again.
+
+### ERROR_INVALID_CHECKSUM	File on the client does not match the checksum of the file received by the server. Try uploading again.
+
+### ERROR_CANCELED	User canceled the operation.
+
+Additionally, attempting to call getReferenceFromUrl() with an invalid URL will result in an IllegalArgumentException from being thrown. The argument to the above method must be of the form gs://bucket/object or https://firebasestorage.googleapis.com/v0/b/bucket/o/object?token=<TOKEN>
+
+
+
+
+
+
+```
+```
+```
+```
+
+```
+```
+```
+```
+
+```
+```
+```
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
