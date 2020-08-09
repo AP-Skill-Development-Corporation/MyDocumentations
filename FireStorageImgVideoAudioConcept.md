@@ -173,55 +173,163 @@ uploadTask.cancel();
 
 You can add listeners to handle success, failure, progress, or pauses in your upload task:
 
-ListenerType	    Typical Usage
 
-OnProgressListener	This listener is called periodically as data is transferred and can be used to populate an upload/download indicator.
+## ListenerType(OnProgressListener):
 
-OnPausedListener	This listener is called any time the task is paused.
+This listener is called periodically as data is transferred and can be used to populate an upload/download indicator.
 
-OnSuccessListener	This listener is called when the task has successfully completed.
+## ListenerType(OnPausedListener):
 
-OnFailureListener	This listener is called any time the upload has failed. This can happen due to network timeouts, authorization failures, or if you cancel the task.
+This listener is called any time the task is paused.
+
+## ListenerType(OnSuccessListener):
+
+This listener is called when the task has successfully completed.
+
+## ListenerType(OnFailureListener):
+
+This listener is called any time the upload has failed. This can happen due to network timeouts, authorization failures, or if you cancel the task.
 
 OnFailureListener is called with an Exception instance. Other listeners are called with an UploadTask.TaskSnapshot object. This object is an immutable view of the task at the 
 time the event occurred. An UploadTask.TaskSnapshot contains the following properties:
 
-getDownloadUrl	Type(String):
+## getDownloadUrl	Type(String):
 
 A URL that can be used to download the object. This is a public unguessable URL that can be shared with other clients. This value is populated once an upload is complete.
 
-getError	Type(Exception):
+## getError	Type(Exception):
 
 If the task failed, this will have the cause as an Exception.
 
-getBytesTransferred	Type(long):
+## getBytesTransferred	Type(long):
 
 The total number of bytes that have been transferred when this snapshot was taken.
 
-getTotalByteCount	Type(long):
+## getTotalByteCount	Type(long):
 
 The total number of bytes expected to be uploaded.
 
-getUploadSessionUri	Type(String):
+## getUploadSessionUri	Type(String):
 
 A URI that can be used to continue this task via another call to putFile.
 
-getMetadata	Type(StorageMetadata):
+## getMetadata	Type(StorageMetadata):
 
 Before an upload completes, this is the metadata being sent to the server. After the upload completes, this is the metadata returned by the server.
 
-getTask	Type(UploadTask):
+## getTask	Type(UploadTask):
 
 The task that created this snapshot. Use this task to cancel, pause, or resume the upload.
 
-getStorage	Type(StorageReference):
+## getStorage	Type(StorageReference):
 
 The StorageReference used to create the UploadTask.
 
 The UploadTask event listeners provide a simple and powerful way to monitor upload events.
 
-
+```
+// Observe state change events such as progress, pause, and resume
+uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+    @Override
+    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+        System.out.println("Upload is " + progress + "% done");
+    }
+}).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+    @Override
+    public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+        System.out.println("Upload is paused");
+    }
+});
 
 ```
+# Handle Activity Lifecycle Changes
+
+Uploads continue in the background even after activity lifecycle changes (such as presenting a dialog or rotating the screen). Any listeners you had attached will also remain attached. This could cause unexpected results if they get called after the activity is stopped.
+
+You can solve this problem by subscribing your listeners with an activity scope to automatically unregister them when the activity stops. Then, use the getActiveUploadTasks method when the activity restarts to obtain upload tasks that are still running or recently completed.
+
+The example below demonstrates this and also shows how to persist the storage reference path used.
 
 ```
+@Override
+protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+
+    // If there's an upload in progress, save the reference so you can query it later
+    if (mStorageRef != null) {
+        outState.putString("reference", mStorageRef.toString());
+    }
+}
+
+@Override
+protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+
+    // If there was an upload in progress, get its reference and create a new StorageReference
+    final String stringRef = savedInstanceState.getString("reference");
+    if (stringRef == null) {
+        return;
+    }
+    mStorageRef = FirebaseStorage.getInstance().getReferenceFromUrl(stringRef);
+
+    // Find all UploadTasks under this StorageReference (in this example, there should be one)
+    List<UploadTask> tasks = mStorageRef.getActiveUploadTasks();
+    if (tasks.size() > 0) {
+        // Get the task monitoring the upload
+        UploadTask task = tasks.get(0);
+
+        // Add new listeners to the task using an Activity scope
+        task.addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot state) {
+                // Success!
+                // ...
+            }
+        });
+    }
+}
+
+```
+getActiveUploadTasks retrieves all active upload tasks at and below the provided reference, so you may need to handle multiple tasks.
+
+# Continuing Uploads Across Process Restarts
+
+If your process is shut down, any uploads in progress will be interrupted. However, you can continue uploading once the process restarts by resuming the upload session with the server. This can save time and bandwidth by not starting the upload from the start of the file.
+
+To do this, begin uploading via putFile. On the resulting StorageTask, call getUploadSessionUri and save the resulting value in persistent storage (such as SharedPreferences).
+
+```
+uploadTask = mStorageRef.putFile(localFile);
+uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+    @Override
+    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+        Uri sessionUri = taskSnapshot.getUploadSessionUri();
+        if (sessionUri != null && !mSaved) {
+            mSaved = true;
+            // A persisted session has begun with the server.
+            // Save this to persistent storage in case the process dies.
+        }
+    }
+});
+
+```
+After your process restarts with an interrupted upload, call putFile again. But this time also pass the Uri that was saved.
+
+```
+//resume the upload task from where it left off when the process died.
+//to do this, pass the sessionUri as the last parameter
+uploadTask = mStorageRef.putFile(localFile,
+        new StorageMetadata.Builder().build(), sessionUri);
+
+```
+Sessions last one week. If you attempt to resume a session after it has expired or if it had experienced an error, you will receive a failure callback. It is your responsibility to ensure the file has not changed between uploads.
+
+# Error Handling
+
+There are a number of reasons why errors may occur on upload, including the local file not existing, or the user not having permission to upload the desired file. You can find more information about errors in the Handle Errors section of the docs.
+
+# Full Example
+
+A full example of an upload with progress monitoring and error handling is shown below:
+
