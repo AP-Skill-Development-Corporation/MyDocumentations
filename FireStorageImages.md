@@ -7,7 +7,7 @@
 * Once your project is loaded, you can add Firebase storage to it.
 
 ## Adding FirebaseStorage
-* With new Android 2.2 it is really easy to integrate firebase. (If you haven’t updated your studio, you should update your Android Studio).
+* With new Android Studio latest version it is really easy to integrate firebase. (If you haven’t updated your studio, you should update your Android Studio).
 * To add Firebase Storage, click on Tools -> Firebase
 
 ![a1](https://user-images.githubusercontent.com/51777024/85916762-80351880-b871-11ea-95cd-2174c926fb4f.png)
