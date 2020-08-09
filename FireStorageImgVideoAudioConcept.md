@@ -2,7 +2,7 @@
 
 Cloud Storage allows developers to quickly and easily upload files to a Google Cloud Storage bucket provided and managed by Firebase.
 
-## Note: By default, Cloud Storage buckets require Firebase Authentication to upload files. You can change your Firebase Security Rules for Cloud Storage to allow unauthenticated access. Since the default Google App Engine app and Firebase share this bucket, configuring public access may make newly uploaded App Engine files publicly accessible as well. Be sure to restrict access to your Storage bucket again when you set up authentication.
+### Note: By default, Cloud Storage buckets require Firebase Authentication to upload files. You can change your Firebase Security Rules for Cloud Storage to allow unauthenticated access. Since the default Google App Engine app and Firebase share this bucket, configuring public access may make newly uploaded App Engine files publicly accessible as well. Be sure to restrict access to your Storage bucket again when you set up authentication.
 
 # Upload Files
 
@@ -172,6 +172,41 @@ uploadTask.cancel();
 # Monitor Upload Progress
 
 You can add listeners to handle success, failure, progress, or pauses in your upload task:
+
+Listener Type	Typical Usage
+
+OnProgressListener	This listener is called periodically as data is transferred and can be used to populate an upload/download indicator.
+
+OnPausedListener	This listener is called any time the task is paused.
+
+OnSuccessListener	This listener is called when the task has successfully completed.
+
+OnFailureListener	This listener is called any time the upload has failed. This can happen due to network timeouts, authorization failures, or if you cancel the task.
+
+OnFailureListener is called with an Exception instance. Other listeners are called with an UploadTask.TaskSnapshot object. This object is an immutable view of the task at the 
+time the event occurred. An UploadTask.TaskSnapshot contains the following properties:
+
+Property	Type	Description
+
+getDownloadUrl	String	A URL that can be used to download the object. This is a public unguessable URL that can be shared with other clients. This value is populated once an upload is complete.
+
+getError	Exception	If the task failed, this will have the cause as an Exception.
+
+getBytesTransferred	long	The total number of bytes that have been transferred when this snapshot was taken.
+
+getTotalByteCount	long	The total number of bytes expected to be uploaded.
+
+getUploadSessionUri	String	A URI that can be used to continue this task via another call to putFile.
+
+getMetadata	StorageMetadata	Before an upload completes, this is the metadata being sent to the server. After the upload completes, this is the metadata returned by the server.
+
+getTask	UploadTask	The task that created this snapshot. Use this task to cancel, pause, or resume the upload.
+
+getStorage	StorageReference	The StorageReference used to create the UploadTask.
+
+The UploadTask event listeners provide a simple and powerful way to monitor upload events.
+
+
 
 ```
 
