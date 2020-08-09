@@ -173,7 +173,7 @@ uploadTask.cancel();
 
 You can add listeners to handle success, failure, progress, or pauses in your upload task:
 
-Listener Type	Typical Usage
+ListenerType	    Typical Usage
 
 OnProgressListener	This listener is called periodically as data is transferred and can be used to populate an upload/download indicator.
 
@@ -186,23 +186,37 @@ OnFailureListener	This listener is called any time the upload has failed. This c
 OnFailureListener is called with an Exception instance. Other listeners are called with an UploadTask.TaskSnapshot object. This object is an immutable view of the task at the 
 time the event occurred. An UploadTask.TaskSnapshot contains the following properties:
 
-Property	Type	Description
+getDownloadUrl	Type(String):
 
-getDownloadUrl	String	A URL that can be used to download the object. This is a public unguessable URL that can be shared with other clients. This value is populated once an upload is complete.
+A URL that can be used to download the object. This is a public unguessable URL that can be shared with other clients. This value is populated once an upload is complete.
 
-getError	Exception	If the task failed, this will have the cause as an Exception.
+getError	Type(Exception):
 
-getBytesTransferred	long	The total number of bytes that have been transferred when this snapshot was taken.
+If the task failed, this will have the cause as an Exception.
 
-getTotalByteCount	long	The total number of bytes expected to be uploaded.
+getBytesTransferred	Type(long):
 
-getUploadSessionUri	String	A URI that can be used to continue this task via another call to putFile.
+The total number of bytes that have been transferred when this snapshot was taken.
 
-getMetadata	StorageMetadata	Before an upload completes, this is the metadata being sent to the server. After the upload completes, this is the metadata returned by the server.
+getTotalByteCount	Type(long):
 
-getTask	UploadTask	The task that created this snapshot. Use this task to cancel, pause, or resume the upload.
+The total number of bytes expected to be uploaded.
 
-getStorage	StorageReference	The StorageReference used to create the UploadTask.
+getUploadSessionUri	Type(String):
+
+A URI that can be used to continue this task via another call to putFile.
+
+getMetadata	Type(StorageMetadata):
+
+Before an upload completes, this is the metadata being sent to the server. After the upload completes, this is the metadata returned by the server.
+
+getTask	Type(UploadTask):
+
+The task that created this snapshot. Use this task to cancel, pause, or resume the upload.
+
+getStorage	Type(StorageReference):
+
+The StorageReference used to create the UploadTask.
 
 The UploadTask event listeners provide a simple and powerful way to monitor upload events.
 
