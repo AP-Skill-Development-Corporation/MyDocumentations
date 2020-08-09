@@ -1,6 +1,215 @@
 
 # Get Started with Cloud Storage on Android
 
+Cloud Storage for Firebase lets you upload and share user generated content, such as images and video, which allows you to build rich media content into your apps. Your data is stored in a Google Cloud Storage bucket, an exabyte scale object storage solution with high availability and global redundancy. Cloud Storage lets you securely upload these files directly from mobile devices and web browsers, handling spotty networks with ease.
+
+## Prerequisites
+
+If you haven't already, add Firebase to your Android project.
+
+In your project-level build.gradle file, make sure to include Google's Maven repository in both your buildscript and allprojects sections.
+
+## Create a default Storage bucket
+
+1. From the navigation pane of the Firebase console, select Storage, then click Get started.
+
+2. Review the messaging about securing your Storage data using security rules. During development, consider setting up your rules for public access.
+
+3. Select a location for your default Storage bucket.
+
+* This location setting is your project's default Google Cloud Platform (GCP) resource location. Note that this location will be used for GCP services in your project that require a location setting, specifically, your Cloud Firestore database and your App Engine app (which is required if you use Cloud Scheduler).
+
+* If you aren't able to select a location, then your project already has a default GCP resource location. It was set either during project creation or when setting up another service that requires a location setting.
+
+If you're on the Blaze plan, you can create multiple buckets, each with its own location.
+
+### Warning: After you set your project's default GCP resource location, you cannot change it.
+
+4. Click Done.
+
+## Set up public access
+
+Cloud Storage for Firebase provides a declarative rules language that allows you to define how your data should be structured, how it should be indexed, and when your data can be read from and written to. By default, read and write access to Storage is restricted so only authenticated users can read or write data. To get started without setting up Authentication, you can configure your rules for public access.
+
+This does make Storage open to anyone, even people not using your app, so be sure to restrict your Storage again when you set up authentication.
+
+## Add the Cloud Storage for Firebase SDK to your app
+
+Add the dependency for the Cloud Storage for Firebase Android library to your module (app-level) Gradle file (usually app/build.gradle):
+
+```
+implementation 'com.google.firebase:firebase-storage:19.1.1'
+
+```
+## Set up Cloud Storage
+
+The first step in accessing your storage bucket is to create an instance of FirebaseStorage:
+
+```
+FirebaseStorage storage = FirebaseStorage.getInstance();
+
+```
+
+You're ready to start using Cloud Storage!
+
+First, let's learn how to create a Cloud Storage reference.
+
+## Advanced setup
+
+There are a few use cases that require additional setup:
+
+* Using storage buckets in multiple geographic regions
+
+* Using storage buckets in different storage classes
+
+* Using storage buckets with multiple authenticated users in the same app
+
+The first use case is perfect if you have users across the world, and want to store their data near them. For instance, you can create buckets in the US, Europe, and Asia to store data for users in those regions to reduce latency.
+
+he second use case is helpful if you have data with different access patterns. For instance: you can set up a multi-regional or regional bucket that stores pictures or other frequently accessed content, and a nearline or coldline bucket that stores user backups or other infrequently accessed content.
+
+In either of these use cases, you'll want to use multiple storage buckets.
+
+The third use case is useful if you're building an app, like Google Drive, which lets users have multiple logged in accounts (for instance, a personal account and a work account). You can use a custom Firebase App instance to authenticate each additional account.
+
+## Use multiple storage buckets
+
+If you want to use a storage bucket other than the default provided above, or use multiple storage buckets in a single app, you can create an instance of FirebaseStorage that references your custom bucket:
+
+```
+// Get a non-default Storage bucket
+FirebaseStorage storage = FirebaseStorage.getInstance("gs://my-custom-bucket");
+
+```
+## Working with imported buckets
+
+When importing an existing Cloud Storage bucket into Firebase, you'll have to grant Firebase the ability to access these files using the gsutil tool, included in the Google Cloud SDK:
+
+```
+gsutil -m acl ch -r -u firebase-storage@system.gserviceaccount.com:O gs://<your-cloud-storage-bucket>
+
+```
+This does not affect newly created buckets, as those have the default access control set to allow Firebase. This is a temporary measure, and will be performed automatically in the future.
+
+## Use a custom Firebase App
+
+If you're building a more complicated app using a custom FirebaseApp, you can create an instance of FirebaseStorage initialized with that app:
+
+```
+// Get the default bucket from a custom FirebaseApp
+FirebaseStorage storage = FirebaseStorage.getInstance(customApp);
+
+// Get a non-default bucket from a custom FirebaseApp
+FirebaseStorage customStorage = FirebaseStorage.getInstance(customApp, "gs://my-custom-bucket");
+
+```
+
+# Create a Storage Reference on Android
+Your files are stored in a Google Cloud Storage bucket. The files in this bucket are presented in a hierarchical structure, just like the file system on your local hard disk, or the data in the Firebase Realtime Database. By creating a reference to a file, your app gains access to it. These references can then be used to upload or download data, get or update metadata or delete the file. A reference can either point to a specific file or to a higher level node in the hierarchy.
+
+If you've used the Firebase Realtime Database, these paths should seem very familiar to you. However, your file data is stored in Google Cloud Storage, not in the Realtime Database.
+
+## Create a Reference
+
+Create a reference to upload, download, or delete a file, or to get or update its metadata. A reference can be thought of as a pointer to a file in the cloud. References are lightweight, so you can create as many as you need. They are also reusable for multiple operations.
+
+References are created using the FirebaseStorage singleton instance and calling its getReference() method.
+
+```
+// Create a storage reference from our app
+StorageReference storageRef = storage.getReference();
+
+```
+
+You can create a reference to a location lower in the tree, say 'images/space.jpg' by using the child() method on an existing reference.
+
+```
+// Create a child reference
+// imagesRef now points to "images"
+StorageReference imagesRef = storageRef.child("images");
+
+// Child references can also take paths
+// spaceRef now points to "images/space.jpg
+// imagesRef still points to "images"
+StorageReference spaceRef = storageRef.child("images/space.jpg");
+
+```
+
+## Navigate with References
+
+You can also use the getParent() and getRoot() methods to navigate up in our file hierarchy. getParent() navigates up one level, while getRoot() navigates all the way to the top.
+
+```
+// getParent allows us to move our reference to a parent node
+// imagesRef now points to 'images'
+imagesRef = spaceRef.getParent();
+
+// getRoot allows us to move all the way back to the top of our bucket
+// rootRef now points to the root
+StorageReference rootRef = spaceRef.getRoot();
+
+```
+child(), getParent(), and getRoot() can be chained together multiple times, as each returns a reference. But calling getRoot().getParent() returns null.
+
+```
+// References can be chained together multiple times
+// earthRef points to 'images/earth.jpg'
+StorageReference earthRef = spaceRef.getParent().child("earth.jpg");
+
+// nullRef is null, since the parent of root is null
+StorageReference nullRef = spaceRef.getRoot().getParent();
+
+```
+## Reference Properties
+
+You can inspect references to better understand the files they point to using the getPath(), getName(), and getBucket() methods. These methods get the file's full path, name and bucket.
+
+```
+// Reference's path is: "images/space.jpg"
+// This is analogous to a file path on disk
+spaceRef.getPath();
+
+// Reference's name is the last segment of the full path: "space.jpg"
+// This is analogous to the file name
+spaceRef.getName();
+
+// Reference's bucket is the name of the storage bucket that the files are stored in
+spaceRef.getBucket();
+
+```
+## Limitations on References
+
+Reference paths and names can contain any sequence of valid Unicode characters, but certain restrictions are imposed including:
+
+1. Total length of reference.fullPath must be between 1 and 1024 bytes when UTF-8 encoded.
+2. No Carriage Return or Line Feed characters.
+3. Avoid using #, [, ], *, or ?, as these do not work well with other tools such as the Firebase Realtime Database or gsutil.
+
+## Full Example
+
+```
+// Points to the root reference
+storageRef = storage.getReference();
+
+// Points to "images"
+imagesRef = storageRef.child("images");
+
+// Points to "images/space.jpg"
+// Note that you can use variables to create child values
+String fileName = "space.jpg";
+spaceRef = imagesRef.child(fileName);
+
+// File path is "images/space.jpg"
+String path = spaceRef.getPath();
+
+// File name is "space.jpg"
+String name = spaceRef.getName();
+
+// Points to "images"
+imagesRef = spaceRef.getParent();
+
+```
+
 # Upload Files on Android
 
 Cloud Storage allows developers to quickly and easily upload files to a Google Cloud Storage bucket provided and managed by Firebase.
@@ -745,42 +954,3 @@ To properly diagnose the issue and handle the error, here is a full list of all 
 ### ERROR_CANCELED	User canceled the operation.
 
 Additionally, attempting to call getReferenceFromUrl() with an invalid URL will result in an IllegalArgumentException from being thrown. The argument to the above method must be of the form gs://bucket/object or https://firebasestorage.googleapis.com/v0/b/bucket/o/object?token=<TOKEN>
-
-
-
-
-
-
-```
-```
-```
-```
-
-```
-```
-```
-```
-
-```
-```
-```
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
