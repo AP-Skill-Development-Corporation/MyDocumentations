@@ -1,10 +1,9 @@
 
-# Espresso Testing In Android
+# Create UI tests with Espresso Test Recorder
 
-Espresso is an open source android user interface (UI) testing framework developed by Google. The term Espresso is of Italian origin, meaning Coffee. Espresso is a simple, efficient and flexible testing framework. This tutorial walks you through the basics of Espresso framework, how to setup Espresso framework in a project, work flow of the framework and finding, automating & asserting user interface components in the testing environment with simple android application.
-In general, mobile automation testing is a difficult and challenging task. Android availability for different devices and platforms makes it things tedious for mobile automation testing. To make it easier, Google took on the challenge and developed Espresso framework. It provides a very simple, consistent and flexible API to automate and test the user interfaces in an android application. Espresso tests can be written in both Java and Kotlin, a modern programming language to develop android application.
+The Espresso Test Recorder tool lets you create UI tests for your app without writing any test code. By recording a test scenario, you can record your interactions with a device and add assertions to verify UI elements in particular snapshots of your app. Espresso Test Recorder then takes the saved recording and automatically generates a corresponding UI test that you can run to test your app.
 
-The Espresso API is simple and easy to learn. You can easily perform Android UI tests without the complexity of multi-threaded testing. Google Drive, Maps and some other applications are currently using Espresso.
+Espresso Test Recorder writes tests based on the Espresso Testing framework, an API in AndroidX Test. The Espresso API encourages you to create concise and reliable UI tests based on user actions. By stating expectations, interactions, and assertions without directly accessing the underlying app’s activities and views, this structure prevents test flakiness and optimizes test run speed.
 
 ## Features of Espresso
 
@@ -38,590 +37,102 @@ Let us now what the benefits of Espresso are.
 
 let us understand how to install espresso framework, configure it to write espresso tests and execute it in our android application.
 
-## Prerequisites
-
-Espresso is a user interface-testing framework for testing android application developed in Java / Kotlin language using Android SDK. Therefore, espresso’s only requirement is to develop the application using Android SDK in either Java or Kotlin and it is advised to have the latest Android Studio.
-
-The list of items to be configured properly before we start working in espresso framework is as follows −
-
-* Install latest Java JDK and configure JAVA_HOME environment variable.
-
-* Install latest Android Studio (version 3.2. or higher).
-
-* Install latest Android SDK using SDK Manager and configure ANDROID_HOME environment variable.
-
-* Install latest Gradle Build Tool and configure GRADLE_HOME environment variable.
-
-## Configure EspressoTesting Framework
-
-Initially, espresso testing framework is provided as part of the Android Support library. Later, the Android team provides a new Android library, AndroidX and moves the latest espresso testing framework development into the library. Latest development (Android 9.0, API level 28 or higher) of espresso testing framework will be done in AndroidX library.
-
-Including espresso testing framework in a project is as simple as setting the espresso testing framework as a dependency in the application gradle file, app/build.gradle. The complete configuration is as follow,
+# Turn off animations on your test device
 
-Using Android support library,
-
-```
-android {
-   defaultConfig {
-      testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-   }
-}
-dependencies {
-   testImplementation 'junit:junit:4.12'
-   androidTestImplementation 'com.android.support.test:runner:1.0.2'
-   androidTestImplementation 'com.android.support.test.espresso:espressocore:3.0.2'
-}
-```
-Using AndroidX library,
-
-```
-android {
-   defaultConfig {
-      testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-   }
-}
-dependencies {
-   testImplementation 'junit:junit:4.12'
-   androidTestImplementation 'com.androidx.test:runner:1.0.2'
-   androidTestImplementation 'com.androidx.espresso:espresso-core:3.0.2'
-}
-```
-# 1. The Espresso test framework
-
-Espresso has basically three components:
-
-ViewMatchers - allows to find view in the current view hierarchy
-
-ViewActions - allows to perform actions on the views
-
-ViewAssertions - allows to assert state of a view
-
-The case construct for Espresso tests is the following:
-
-## Base Espresso Test
-
-```
-onView(ViewMatcher)  1     
- .perform(ViewAction) 2    
-   .check(ViewAssertion); 3
-```
-1.Finds the view
-2.Performs an action on the view
-3.Validates a assertioin
-
-The following code demonstrates the usage of the Espresso test framework.
-```
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-
-// image more code here...
-
-// test statement
-onView(withId(R.id.my_view))            // withId(R.id.my_view) is a ViewMatcher
-        .perform(click())               // click() is a ViewAction
-        .check(matches(isDisplayed())); // matches(isDisplayed()) is a ViewAssertion
-
-// new test
-onView(withId(R.id.greet_button))
-.perform(click())
-.check(matches(not(isEnabled()));
-
-```
-# 2. Making Espresso available
-## 2.1. Installation
-Use the Android SDK manager to install the Android Support Repository.
-![a1](https://user-images.githubusercontent.com/51777024/86595955-22ae7380-bfb7-11ea-9250-ee8e3c275676.PNG)
-## 2.2. Configuration of the Gradle build file for Espresso
-To use Espresso for your tests, add the following dependency to the Gradle build file of your app.
-```
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    testImplementation 'junit:junit:4.12'
-
-    // Android runner and rules support
-    androidtestImplementation 'com.android.support.test:runner:0.5'
-    androidtestImplementation 'com.android.support.test:rules:0.5'
-
-    // Espresso support
-    androidtestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    // add this for intent mocking support
-    androidtestImplementation 'com.android.support.test.espresso:espresso-intents:2.2.2'
-
-    // add this for webview testing support
-    androidtestImplementation 'com.android.support.test.espresso:espresso-web:2.2.2'
-
-}
-```
-Ensure that the android.support.test.runner.AndroidJUnitRunner is specified as value for the testInstrumentationRunner parameter in the build file of your app. Via the packagingOptions you may have to exclude LICENSE.txt, depending on the libraries you are using. The following listing is an example for that.
-```
-apply plugin: 'com.android.application'
-
-android {
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
-    defaultConfig {
-        applicationId "com.example.android.testing.espresso.BasicSample"
-        minSdkVersion 10
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    packagingOptions {
-        exclude 'LICENSE.txt'
-    }
-    lintOptions {
-        abortOnError false
-    }
-}
-
-dependencies {
-    // as before.......
-}
-```
-## 2.3. Device settings
-
-It is recommended to turn of the animation on the Android device which is used for testing. Animations might confusing Espressos check for ideling resources.
-
-![a2](https://user-images.githubusercontent.com/51777024/86596110-56899900-bfb7-11ea-840a-febce713a18e.png)
-
-# 3. Exercise: A first Espresso test
-
-## 3.1. Create project under test
-
-Create a new Android project called Espresso First with the package name com.vogella.android.espressofirst. Use the Blank Template as basis for this project.
-
-Change the generated activity_main.xml layout file to the following.
-
-```
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-    <EditText
-        android:id="@+id/inputField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/changeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button" android:onClick="onClick"/>
-
-    <Button
-        android:id="@+id/switchActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Change Text" android:onClick="onClick"/>
-</LinearLayout>
-```
-Create a new file called activity_second.xml.
-
-```
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/resultView" />
-</LinearLayout>
-```
-Create a new activity with the following code.
-
-```
-package com.vogella.android.espressofirst;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-
-public class SecondActivity extends Activity{
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
-        TextView viewById = (TextView) findViewById(R.id.resultView);
-        Bundle inputData = getIntent().getExtras();
-        String input = inputData.getString("input");
-        viewById.setText(input);
-    }
-}
-```
-Also adjust your MainActivity class.
-
-```
-package com.vogella.android.espressofirst;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-
-public class MainActivity extends Activity {
-
-    EditText editText;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        editText = (EditText) findViewById(R.id.inputField);
-    }
-
-
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.changeText:
-                editText.setText("Lalala");
-                break;
-            case R.id.switchActivity:
-                Intent intent = new Intent(this, SecondActivity.class);
-                intent.putExtra("input", editText.getText().toString());
-                startActivity(intent);
-                break;
-        }
-
-    }
-}
-```
-## 3.2. Adjust the app build.gradle
-Perform the setting as described in Configuration of the Gradle build file for Espresso.
-
-## 3.3. Create your Espresso test
-
-```
-package com.vogella.android.espressofirst;
-
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+Before using Espresso Test Recorder, make sure you turn off animations on your test device to prevent unexpected results. Follow the "Set Up Espresso" instructions on the Testing UI for a Single App page, but note that you do not need to manually set a dependency reference to the Espresso library because Test Recorder does this automatically when you save a recording. These steps only need to be done once for a given project.
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
+# Record an Espresso test
 
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
-
-@RunWith(AndroidJUnit4.class)
-public class MainActivityEspressoTest {
-
-
-    @Rule
-    public ActivityTestRule<MainActivity> mActivityRule =
-        new ActivityTestRule<>(MainActivity.class);
-
-    @Test
-    public void ensureTextChangesWork() {
-        // Type text and then press the button.
-        onView(withId(R.id.inputField))
-                .perform(typeText("HELLO"), closeSoftKeyboard());
-        onView(withId(R.id.changeText)).perform(click());
-
-        // Check that the text was changed.
-        onView(withId(R.id.inputField)).check(matches(withText("Lalala")));
-    }
-
-    @Test
-    public void changeText_newActivity() {
-        // Type text and then press the button.
-        onView(withId(R.id.inputField)).perform(typeText("NewText"),
-                closeSoftKeyboard());
-        onView(withId(R.id.switchActivity)).perform(click());
-
-        // This view is in a different Activity, no need to tell Espresso.
-        onView(withId(R.id.resultView)).check(matches(withText("NewText")));
-    }
-}
-
-```
-## 3.4. Run your test
-Right-click on your test and select Run. See Running Espresso tests for details.
-# 4. More on writing Espresso unit tests
-## 4.1. Location of Espresso tests and required static imports
-
-Espresso tests must be placed in the app/src/androidTest folder.
-
-To simplify the usage of the Espresso API it is recommended to add the following static imports. This allows to access these methods without the class prefix.
-
-```
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
-```
-## 4.2. Using ViewMatcher
-To find a view, use the onView() method with a view matcher which selects the correct view. If you are using an AdapterView use the onData() method instead of the onView() method. The The onView() methods return an object of type ViewInteraction. The onData() method returns an object of type DataInteraction.
-
-The following table describes the available matchers.
-
-Table 1. Espresso matchers
-![mi](https://user-images.githubusercontent.com/51777024/86597769-d0228680-bfb9-11ea-9657-fa0805787784.PNG)
-
-## 4.3. Performing Actions
-
-ViewInteraction and DataInteraction allow to specify an action for test via an object of type ViewAction via the perform method. The ViewActions class provides helper methods for the most common actions, like:
-
-* ViewActions.click
-
-* ViewActions.typeText()
-
-* ViewActions.pressKey()
-
-* ViewActions.clearText()
-
-The perform method returns again an object of type ViewInteraction on which you can perform more actions or validate the result. It also uses varags as argument, i.e, you can pass several actions at the same time to it.
-
-## 4.4. Verifying test results
-
-Call the ViewInteraction.check() method to assert a view state. This method expects a ViewAssertion object as input. The ViewAssertions class provides helper methods for creating these objects:
-
-matches - Hamcrest matcher
-
-doesNotExist - asserts that the select view does not exist
-
-You can use the powerful Hamcrest matchers. The following gives a few examples:
-
-
-```
-onView(withText(startsWith("ABC"))).perform(click()); 1
-
-onView(withText(endsWith("YYZZ"))).perform(click()); 2
-
-onView(withId(R.id.viewId)).check(matches(withContentDescription(containsString("YYZZ")))); 3
-
-onView(withText(equalToIgnoringCase("xxYY"))).perform(click()); 4
- -
-onView(withText(equalToIgnoringWhiteSpace("XX YY ZZ"))).perform(click()); 5
-
-onView(withId(R.id.viewId)).check(matches(withText(not(containsString("YYZZ"))))); 6
-```
-1.Matches a view which text starts with "ABC" pattern
-2.Matches a view which text ends with "YYZZ" pattern
-3.Matches that the text of the view with specified R.id has content description which contains "YYZZ" string anywhere
-4.Matches a view which text is equal to the specified string, ignoring case:
-5.Matches a view which text is equal to the specified text when whitespace differences are (mostly) ignored
-6.Matches that text of a particular view with specified R.id does not contain "YYZZ" string
-
-## 4.5. Access to the instrumentation API
-Via the InstrumentationRegistry.getTargetContext() you have access to the target context of your application. For example, if you want to use the id without using R.id you can use the following helper method to determine it.
-
-
-```
-package testing.android.vogella.com.asynctask;
-
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
-@RunWith(AndroidJUnit4.class)
-public class EspressoTest {
-
-    @Rule
-    public ActivityTestRule<MainActivity> mActivityRule =
-            new ActivityTestRule<>(MainActivity.class);
-
-    @Test
-    public void buttonShouldUpdateText(){
-        onView(withId(R.id.update)).perform(click());
-        onView(withId(getResourceId("Click"))).check(matches(withText("Done")));
-    }
-
-    private static int getResourceId(String s) {
-        Context targetContext = InstrumentationRegistry.getTargetContext();
-        String packageName = targetContext.getPackageName();
-        return targetContext.getResources().getIdentifier(s, "id", packageName);
-    }
-}
-```
-## 4.6. Configuring the start intent for the activity
-If you specify false as third parameter in the ActivityTestRule, you can configure the intent for starting the activity. This is as demonstrated in the following code example.
-```
-package com.vogella.android.testing.espressosamples;
-
-import android.content.Intent;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
-@RunWith(AndroidJUnit4.class)
-public class SecondActivityTest {
-
-    @Rule
-    // third parameter is set to false which means the activity is not started automatically
-    public ActivityTestRule<SecondActivity> rule =
-        new ActivityTestRule(SecondActivity.class, true, false);
-
-    @Test
-    public void demonstrateIntentPrep() {
-        Intent intent = new Intent();
-        intent.putExtra("EXTRA", "Test");
-        rule.launchActivity(intent);
-        onView(withId(R.id.display)).check(matches(withText("Test")));
-    }
-}
-```
-## 4.7. Adapter views
-AdapterView is a special type of widget that loads its data dynamically from an adapter. Only a subset of the data has real views in the current view hierarchy. A onView() search would not find views for them. onData can be used to interactive with adapter views, like ListView. The following gives a few examples.
-
-```
-// click on an item of type String in a spinner
-// afterwards verify that the view with the R.id.spinnertext_simple id contains "Eclipse"
-onData(allOf(is(instanceOf(String.class)), is("Eclipse"))).perform(click());
-onView(withId()).check(matches(withText(containsString("Eclipse")))); // normal view not adapter view
-
-onData(allOf(is(instanceOf(Map.class)), hasEntry(equalTo("STR"), is("item: 50"))).perform(click());
-
-onData(withItemContent("item: 60")).onChildView(withId(R.id.item_size)).perform(click());
-
-```
-## 4.8. Espresso testing with permissions
-Via instrumentation you can grand your tests the permission to execute.
-```
-@Before
-public void grantPermission() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        getInstrumentation().getUiAutomation().executeShellCommand(
-                "pm grant " + getTargetContext().getPackageName()
-                        + " android.permission.CALL_PHONE");
-    }
-}
-```
-## 4.9. Espresso UI recorder
-Android Studio provides an Run  Record Espresso Test menu entry which allows you to record the interaction with your application and create a Espresso test from it.
-![a3](https://user-images.githubusercontent.com/51777024/86596122-5be6e380-bfb7-11ea-911c-9b64ae71bcb3.png)
-![a4](https://user-images.githubusercontent.com/51777024/86596157-673a0f00-bfb7-11ea-8a19-62321e750982.png)
-## 4.10. Configuring the activity under test
-You can also access the activity object which you are testing and call methods on it. For example, assume you want to call a method on your activity.
-```
-public class MainActivity extends Activity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-    public void configureMainActivity(String Uri) {
-        // do something with this
-    }
-}
-```
-This configureMainActivity can be called in your test.
-```
-package com.vogella.android.myapplication;
-
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-@RunWith(AndroidJUnit4.class)
-
-public class ExampleInstrumentedTest {
-
-    @Rule
-    public ActivityTestRule<MainActivity> mActivityRule =
-            new ActivityTestRule<MainActivity>(MainActivity.class);
-
-    @Test
-    public void useAppContext() throws Exception {
-        MainActivity activity = mActivityRule.getActivity();
-        activity.configureMainActivity("https://www.vogella.com/");
-        // do more
-    }
-}
-```
-You can also override methods in 
-ActivityTestRule, for exmaple the
-beforeActivityLaunched and
-afterActivityLaunched methods.
-You can also access the current activity.
-```
-@Test
-public void navigate() {
-
-        Activity instance = getActivityInstance();
-        onView(withText("Next")).perform(click());
-        Activity activity = getActivityInstance();
-        boolean b = (activity instanceof  SecondActivity);
-        assertTrue(b);
-        // do more
-    }
-
-    public Activity getActivityInstance() { 
-        final Activity[] activity = new Activity[1];
-        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable( ) {
-            public void run() {
-                Activity currentActivity = null;
-                Collection resumedActivities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(RESUMED);
-                if (resumedActivities.iterator().hasNext()){
-                    currentActivity = (Activity) resumedActivities.iterator().next();
-                    activity[0] = currentActivity;
-                }
-            }
-        });
-
-        return activity[0];
-    }
-
-```
-- Allows to access the currently active activity.
-
-## 4.11. Running Espresso tests
-
-## 4.11.1. Using Android Studio
-
-Right-click on your test and select Run.testCase Passed
-
-![aaa](https://user-images.githubusercontent.com/51777024/86599305-11b43100-bfbc-11ea-8363-ad8245460e2d.png)
+Espresso tests consist of two primary components: UI interactions and assertions on View elements. UI interactions include tap and type actions that a person may use to interact with your app. Assertions verify the existence or contents of visual elements on the screen. For example, an Espresso test for the Notes testing app might include UI interactions for clicking on a button and writing a new note but would use assertions to verify the existence of the button and the contents of the note.
+
+This section will go over how to create both of these test components using Espresso Test Recorder, as well as how to save your finished recording to generate the test.
+
+# Record UI interactions
+
+To start recording a test with Espresso Test Recorder, proceed as follows:
+
+1. Click Run > Record Espresso Test.
+
+2. In the Select Deployment Target window, choose the device on which you want to record the test. If necessary, create a new Android Virtual Device. Click OK.
+
+3. Espresso Test Recorder triggers a build of your project, and the app must install and launch before Espresso Test Recorder allows you to interact with it. The Record Your Test window appears after the app launches, and since you have not interacted with the device yet, the main panel reads "No events recorded yet." Interact with your device to start logging events such as "tap" and "type" actions.
+
+## Note: Before you can begin logging interactions, you may see a dialog on your device that says "Waiting for Debugger" or "Attaching Debugger." Espresso Test Recorder uses the debugger to log UI events. When the debugger attaches, the dialog will close automatically; do not hit Force Close.
+
+Recorded interactions will appear in the main panel in the Record Your Test window, as shown in figure 1 below. When you run the test, the Espresso test will try executing these actions in the same order.
+
+
+Figure 1. The Record Your Test window with logged UI interactions.
+
+# Add assertions to verify UI elements
+
+Assertions verify the existence or contents of a View element through three main types:
+
+* text is: Checks the text content of the selected View element
+
+* exists: Checks that the View element is present in the current View hierarchy visible on the screen
+
+* does not exist: Checks that the View element is not present in the current View hierarchy
+
+To add an assertion to your test, proceed as follows:
+
+1. Click Add Assertion. A Screen Capture dialog appears while Espresso gets the UI hierarchy and other information about the current app state. The dialog closes automatically once Espresso has captured the screenshot.
+
+2. A layout of the current screen appears in a panel on the right of the Record Your Test window. To select a View element on which to create an assertion, click on the element in the screenshot or use the first drop-down menu in the Edit assertion box at the bottom of the window. The selected View object is highlighted in a red box.
+
+3. Select the assertion you want to use from the second drop-down menu in the Edit assertion box. Espresso populates the menu with valid assertions for the selected View element.
+
+* If you choose the "text is" assertion, Espresso automatically inserts the text currently inside the selected View element. You can edit the text to match your desired assertion using the text field in the Edit assertion box.
+
+4. Click Save and Add Another to create another assertion or click Save Assertion to close the assertion panels.
+
+
+The screenshot in figure 2 shows a "text is" assertion being created to verify that the title of the note is "Happy Testing!":
+
+
+Figure 2. The Edit assertion box after a View element is selected (in red).
+
+
+While creating an assertion, you can continue interacting with your app, even with the assertion panels still open within the Record Your Test window. Espresso Test Recorder will keep logging your actions, but the assertion you are editing will appear before these interactions once it’s saved. The screenshot for the assertion also retains the layout that the device or emulator had at the time you hit the Add Assertion button.
+
+# Save a recording
+
+Once you finish interacting with your app and adding assertions, use the following steps to save your recording and generate the Espresso test:
+
+1. Click Complete Recording. The Pick a test class name for your test window appears.
+
+2. Espresso Test Recorder gives your test a unique name within its package based on the name of the launched activity. Use the Test class name text field if you want to change the suggested name. Click Save.
+
+* If you have not added the Espresso dependencies to your app, a Missing Espresso dependencies dialog appears when you try to save your test. Click Yes to automatically add the dependencies to your build.gradle file.
+
+3. The file automatically opens after Espresso Test Recorder generates it, and Android Studio shows the test class as selected in the Project window of the IDE.
+
+* Where the test saves depends on the location of your instrumentation test root, as well as the package name of the launched activity. For example, tests for the Notes testing app save in the src > androidTest > java > com.example.username.appname folder of the app module on which you recorded the test.
+
+# Run an Espresso test locally
+
+To run an Espresso test, use the Project  window on the left side of the Android Studio IDE:
+
+1. Open the desired app module folder and navigate to the test you want to run. The test’s location depends on the location of your instrumentation test root and the package name of the launched activity. The following examples demonstrate where a test would save for the Notes testing app:
+
+* If you are using the Android view within the window, navigate to java > com.example.username.appname (androidTest).
+
+* If you are using the Project view inside the window, navigate to src > androidTest > java > com.example.username.appname within the module folder.
+
+2. Right-click on the test and click Run ‘testName.’
+
+* Alternatively, you can open the test file and right-click on the generated test class or method. Read more about how to run tests on the Test Your App page.
+
+3. In the Select Deployment Target window, choose the device on which you want to run the test. If necessary, create a new Android Virtual Device. Click OK.
+
+Monitor the progress of your test in the Run window at the bottom of the IDE. Android Studio runs a full build of your project and opens a tab with the name of your test in the Run window, as shown in figure 3. You can check whether your test passes or fails in this tab, as well as how long the test took to run. When the test finishes, the tab will log "Tests ran to completion."
+
+Figure 3. Sample output in the Run window after running an Espresso test locally.
+
+To learn more about writing test run configurations, read the "Defining a test configuration for a class or method" section in Create and Edit Run/Debug Configurations.
+
+# Run an Espresso test with Firebase Test Lab for Android
+
+You can use tests generated by Espresso Test Recorder with Firebase Test Lab to test your app in the cloud on hundreds of device configurations. There is no charge to test your app with Test Lab within the free daily quota on the Spark plan. To run Espresso tests with Firebase Test Lab, create a Firebase project for your app and then follow the instructions to Run your tests with Firebase Test Lab from Android Studio.
+
+Figure 4. Sample output in the Run window after running a test with Firebase Test Lab on multiple devices.
