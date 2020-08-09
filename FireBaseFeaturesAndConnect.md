@@ -15,7 +15,7 @@ Firebase has several features that make this platform essential. These features 
 
 The analytics dashboard is one of the best features of Firebase, which is equipped with. It is free and can report 500 event types, each with 25 attributes. The dashboard is top-notch for observing user behavior and measuring various user characteristics. Ultimately it helps us to understand how people use our app so that we can better optimize it in the future.
 
-## Key features
+# Key features
 
 ## Unlimited Reporting
 
@@ -77,19 +77,19 @@ One of the most important aspects of application development is being able to de
 
 Here are some user interaction aspects which make development a piece of cake:
 
-# AdWords
+## AdWords
 
 Linking AdWords is very easy, and with it, we can segment and define our user base using Firebase Analytics. Also, it is easy to improve our targeting in marketing advertising campaigns. Some other benefits include conversion tracking, cross-network, attribution networks, and LTV (Calculating Customer Lifetime Value).
 
-# App Indexing
+## App Indexing
 
 With app indexing, we can work on aspects like re-engaging with our app, especially by surfing the in-app content within Google search results. It will also help in ranking our application in Google search results.
 
-# Invites
+## Invites
 
 It is a perfect tool for referrals and sharing. Get the help of our users to develop our app easily via email or SMS, allowing their existing users to share our app or in-app content. If we use this feature in combination with promotions, then we can also work towards acquiring new customers and retaining our existing customers.
 
-# Notifications
+## Notifications
 
 We can manage information campaigns very easily, including the ability to set and schedule messages to engage users at the right time of day. These notifications are completely free. These are unlimited for both iOS and Android. There is only one dashboard to worry about, and if we integrate with Firebase Analytics, we can use various user segmentation features.
 
@@ -103,55 +103,55 @@ We can also cross-promote between our apps with AdMob House ads for free!
 
 how to connect an Android app to Firebase
 
-# Step 1
+## Step 1
 
 Open Firebase Console and click on Add Project.
 
 ![pic1](https://user-images.githubusercontent.com/51777024/89710452-d208ac80-d9a0-11ea-9bde-e13d87f365b7.png)
 
 
-# Step 2
+## Step 2
 
 Enter your project name, check the user agreement and click on Continue.
 
 ![pic2](https://user-images.githubusercontent.com/51777024/89710453-d5039d00-d9a0-11ea-86bd-1be487f87851.png)
 
 
-# Step 3
+## Step 3
 
 Make sure the option Enable Google Analytics for this project is enabled. Click Continue.
 
 ![pic3](https://user-images.githubusercontent.com/51777024/89710455-d92fba80-d9a0-11ea-976f-aba4a9407207.png)
 
 
-# Step 4
+## Step 4
 
 On the Configure Google Analytics screen, select Default Account for Firebase from the dropdown and click Create project.
 
 ![pic4](https://user-images.githubusercontent.com/51777024/89710457-dc2aab00-d9a0-11ea-8c7e-823c2782d2e6.png)
 
 
-# Step 5
+## Step 5
 
 Now, click on the Android icon to proceed with adding your Android app to this Firebase project.
 
 ![pic5](https://user-images.githubusercontent.com/51777024/89710458-df259b80-d9a0-11ea-8952-5b9846f96d25.png)
 
-# Step 6
+## Step 6
 
 Enter the package name of your app and click on Register app.
 
 ![pic6](https://user-images.githubusercontent.com/51777024/89710459-e187f580-d9a0-11ea-9cc4-1a59b9086012.png)
 
 
-# Step 7
+## Step 7
 
 Click on the Download google-services.json button and once the JSON file gets downloaded, place it inside the app folder of your Android project.
 
 ![pic7](https://user-images.githubusercontent.com/51777024/89710463-e3ea4f80-d9a0-11ea-95f9-c9f1de528bf5.png)
 
 
-# Step 8
+## Step 8
 
 Click on next and it will show you the dependencies that you need to add to your Android project.
 
@@ -172,7 +172,7 @@ Add the following dependency to your app-level build.gradle file to use Firebase
 implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
 
 ```
-# Email Authentication
+## Email Authentication
 
 Go to Firebase Console, select your project and click on Authentication tab. Click on Sign-in method, select Email/Password and enable it.
 
@@ -185,7 +185,7 @@ Now add the following permission to your manifest file.
 
 ```
 
-# Check Current Auth State
+## Check Current Auth State
 
 Declare an instance of FirebaseAuth
 
@@ -194,7 +194,7 @@ private FirebaseAuth mAuth;
 
 ```
 
-# In the onCreate() method, initialize the FirebaseAuth instance.
+## In the onCreate() method, initialize the FirebaseAuth instance.
 
 ```
 // Initialize Firebase Auth
@@ -202,7 +202,7 @@ mAuth = FirebaseAuth.getInstance();
 
 ```
 
-# Sign up new Users
+## Sign up new Users
 
 Create a new createAccount method which takes in an email address and password, validates them and then creates a new user with the createUserWithEmailAndPassword method.
 
@@ -224,7 +224,7 @@ mAuth.createUserWithEmailAndPassword(email, password)
 ```
 Add a form to register new users with their email and password and call this new method when it is submitted. You can see an example in our quickstart sample .
 
-# Sign In Existing Users
+## Sign In Existing Users
 
 Create a new signIn method which takes in an email address and password, validates them, and then signs a user in with the signInWithEmailAndPassword method.
 
