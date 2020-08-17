@@ -223,4 +223,6 @@ To sign out a user, call signOut:
 FirebaseAuth.getInstance().signOut();
 
 ```
+# Sample Example Application
+
 
