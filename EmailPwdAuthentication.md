@@ -128,7 +128,7 @@ mAuth.signInWithEmailAndPassword(email, password)
                 // ...
             }
         });
-
+        
 ```
 
 If sign-in succeeded, you can use the returned FirebaseUser to proceed.
@@ -156,153 +156,223 @@ FirebaseAuth.getInstance().signOut();
 
 ```
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.google.android.gms.common.SignInButton
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Firebase User Register\nwith email and password"
+      android:textSize="30sp"
+      android:gravity="center"
+      android:textColor="@color/colorPrimary"/>
+    <EditText
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="676dp"
-        android:id="@+id/button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:hint="Enter User Email Id"
+        android:textSize="20sp"
+        android:textColorHint="#000"/>
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter User Password"
+        android:textSize="20sp"
+        android:textColorHint="#000"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:onClick="registerhere"/>
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Firebase signin with\nuser emailid and password"
+      android:textSize="25sp"
+      android:textColor="@color/colorPrimary"
+      android:gravity="center"/>
+  <EditText
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/et1"
+      android:hint="Enter Registered User email id"
+      android:textColorHint="#000"/>
+  <EditText
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/et2"
+      android:hint="Enter Your User Password"
+      android:textColorHint="#000"/>
+  <Button
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Signin"
+      android:onClick="signinhere"/>
+  <TextView
+      android:layout_width="match_parent"
+      android:textSize="25sp"
+      android:layout_height="wrap_content"
+      android:textColor="@color/colorPrimary"
+      android:gravity="center"
+      android:text="Firebase forgot email Password"/>
+  <EditText
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/resetemailid"
+      android:hint="Enter Registered Email Id"
+      android:textColorHint="#000"
+      />
+  <Button
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="resetpasswordemail"
+      android:onClick="reset"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
 
 ```
 
 **Step 2:MainAcivity.java**
 
 ```
-package com.example.googlesignin;
+package com.example.firebaseemailpwdauth;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int RC_SIGN_IN = 20;
-    private FirebaseAuth mAuth;
+    EditText editemail,editpwd;
+    FirebaseAuth auth;
+    ProgressDialog dialog;
+    EditText editsignin,editpassword;
+    EditText remail;
 
-    GoogleSignInClient mGoogleSignInClient;
-    SignInButton button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button = findViewById(R.id.button);
-        mAuth = FirebaseAuth.getInstance();
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient=GoogleSignIn.getClient(this,gso);
-        button.setOnClickListener(new View.OnClickListener() {
+
+        remail=findViewById(R.id.resetemailid);
+        editsignin=findViewById(R.id.et1);
+        editpassword=findViewById(R.id.et2);
+        dialog=new ProgressDialog(this);
+        auth=FirebaseAuth.getInstance();
+        editemail=findViewById(R.id.email);
+        editpwd=findViewById(R.id.password);
+    }
+
+    public void registerhere(View view) {
+
+       String e= editemail.getText().toString();
+       String p= editpwd.getText().toString();
+        if (e.isEmpty()||p.isEmpty())
+        {
+            Toast.makeText(this, "please enter the details", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            dialog.setTitle("Registrating the user");
+            dialog.setMessage("please wait");
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.show();
+            auth.createUserWithEmailAndPassword(e,p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+
+                   if (task.isSuccessful())
+                    {
+                        editemail.setText("");
+                        editpwd.setText("");
+                        Toast.makeText(MainActivity.this, "Registration Sucess", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(MainActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
+                    }
+                    dialog.dismiss();
+
+                }
+            });
+
+        }
+
+    }
+
+    public void signinhere(View view)
+    {
+        String se=editsignin.getText().toString();
+        String sp=editpassword.getText().toString();
+
+        dialog.setTitle("Sign In the user");
+        dialog.setMessage("please wait");
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.show();
+        auth.signInWithEmailAndPassword(se,sp).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onClick(View v) {
-                signIn();
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if (task.isSuccessful())
+                {
+                    Intent i=new Intent(getApplicationContext(),Profile.class);
+                    startActivity(i);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "invalid creadentials", Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+
             }
         });
 
     }
 
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+    public void reset(View view)
+    {
+
+      String re=  remail.getText().toString();
+      dialog.setTitle("Forgot pwd send email");
+      dialog.setMessage("please wait");
+      dialog.show();
+      auth.sendPasswordResetEmail(re).addOnCompleteListener(new OnCompleteListener<Void>() {
+          @Override
+          public void onComplete(@NonNull Task<Void> task) {
+
+              if (task.isSuccessful())
+              {
+                  Toast.makeText(MainActivity.this, "reset link send to email id", Toast.LENGTH_SHORT).show();
+              }
+              else {
+                  Toast.makeText(MainActivity.this, "Invalid email id", Toast.LENGTH_SHORT).show();
+              }
+              dialog.dismiss();
+          }
+      });
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                //Log.w(TAG, "Google sign in failed", e);
-                // ...
-            }
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(account!=null)
-        {
-            //FirebaseUser user = mAuth.getCurrentUser();
-            Intent i = new Intent(getApplicationContext(),MainActivity.class);
-            startActivity(i);
-            finish();
-        }
-    }
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(MainActivity.this,
-                                    ""+user.getDisplayName(), Toast.LENGTH_SHORT).show();
-                            //FirebaseUser user = mAuth.getCurrentUser();
-                            Intent i = new Intent(getApplicationContext(),NVDRActivity.class);
-                            startActivity(i);
-                            finish();
-                            //updateUI(user);
-                        } else {
-                           
-                            Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                            updateUI(null);*/
-                        }
-
-                        // ...
-                    }
-                });
-    }
-
 }
 
 ```
 
 **Step 3:Sample OutPut**
 
-![WhatsApp Image 2020-08-17 at 13 56 20 (1)](https://user-images.githubusercontent.com/51777024/90388164-06692080-e0a5-11ea-8f55-a0bd9319102a.jpeg)
-
-
+![WhatsApp Image 2020-08-17 at 16 34 47](https://user-images.githubusercontent.com/51777024/90389810-d7a07980-e0a7-11ea-871f-b432d54e2078.jpeg)
 
 
 
