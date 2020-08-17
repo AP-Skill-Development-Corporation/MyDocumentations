@@ -225,8 +225,11 @@ FirebaseAuth.getInstance().signOut();
 ```
 # Sample Example Application
 
+
+**Step 1:acivity_main.xml**
+
 ```
-activity_main.xml
+XML
 
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
@@ -263,10 +266,10 @@ activity_main.xml
 </LinearLayout>
 
 ```
-**MainActivity.java**
+
+**Step 2:MainAcivity.java**
 
 ```
-```java
 package com.example.gopalotpauth;
 
 import androidx.annotation.NonNull;
@@ -286,7 +289,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
