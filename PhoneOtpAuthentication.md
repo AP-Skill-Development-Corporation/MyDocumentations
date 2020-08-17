@@ -225,10 +225,8 @@ FirebaseAuth.getInstance().signOut();
 ```
 # Sample Example Application
 
-**activity_main.xml**
-
 ```
-
+activity_main.xml
 
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
@@ -265,10 +263,9 @@ FirebaseAuth.getInstance().signOut();
 </LinearLayout>
 
 ```
-
-```
 **MainActivity.java**
 
+```
 ```java
 package com.example.gopalotpauth;
 
