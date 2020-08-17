@@ -229,8 +229,6 @@ FirebaseAuth.getInstance().signOut();
 **Step 1:acivity_main.xml**
 
 ```
-XML
-
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
