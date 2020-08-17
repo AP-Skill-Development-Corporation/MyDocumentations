@@ -173,13 +173,11 @@ FirebaseAuth.getInstance().signOut();
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
 ```
 
 **Step 2:MainAcivity.java**
 
 ```
-
 package com.example.googlesignin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -266,30 +264,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        // Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //og.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(MainActivity.this,
                                     ""+user.getDisplayName(), Toast.LENGTH_SHORT).show();
                             //FirebaseUser user = mAuth.getCurrentUser();
                             Intent i = new Intent(getApplicationContext(),NVDRActivity.class);
-                            i.putExtra("name",user.getDisplayName());
-                            i.putExtra("email",user.getEmail());
-                            i.putExtra("mobile",user.getPhoneNumber());
                             startActivity(i);
                             finish();
                             //updateUI(user);
                         } else {
-                            // If sign in fails, display a message to the user.
-                            /*Log.w(TAG, "signInWithCredential:failure", task.getException());
+                           
                             Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
                             updateUI(null);*/
                         }
@@ -299,11 +289,10 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-
-
 }
 
 ```
+
 **Step 3:Sample OutPut**
 
 ![WhatsApp Image 2020-08-17 at 13 56 20 (1)](https://user-images.githubusercontent.com/51777024/90388164-06692080-e0a5-11ea-8f55-a0bd9319102a.jpeg)
