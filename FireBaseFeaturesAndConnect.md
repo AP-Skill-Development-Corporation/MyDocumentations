@@ -15,8 +15,6 @@ Firebase has several features that make this platform essential. These features 
 
 The analytics dashboard is one of the best features of Firebase, which is equipped with. It is free and can report 500 event types, each with 25 attributes. The dashboard is top-notch for observing user behavior and measuring various user characteristics. Ultimately it helps us to understand how people use our app so that we can better optimize it in the future.
 
-# Key features
-
 ## Unlimited Reporting
 
 It allows for reporting of 500 distinct events.
