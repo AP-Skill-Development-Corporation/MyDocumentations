@@ -279,7 +279,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
@@ -311,7 +310,6 @@ public class MainActivity extends AppCompatActivity {
 
                 sendotpauth();
             }
-
             private void sendotpauth()
             {
                 String ph=phone.getText().toString();
@@ -351,13 +349,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     };
-
-
-
         });
-
-
-
 
         findViewById(R.id.sendsignin).setOnClickListener(new View.OnClickListener() {
             @Override
