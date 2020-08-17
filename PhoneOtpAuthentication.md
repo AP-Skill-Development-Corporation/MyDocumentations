@@ -394,6 +394,9 @@ public class MainActivity extends AppCompatActivity {
 ```
 **Step 3:Sample OutPut**
 
+![WhatsApp Image 2020-08-17 at 13 37 29](https://user-images.githubusercontent.com/51777024/90373019-f0506580-e08e-11ea-94b8-2ae3e6911e0f.jpeg)
+
+
 
 
 
