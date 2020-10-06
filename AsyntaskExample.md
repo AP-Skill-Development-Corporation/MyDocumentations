@@ -41,6 +41,34 @@ It contains information about progress units. While doing background operation w
 
 It contains information about result type.
 
-Sample Asyntak Example Application
+## Sample Asyntask Example Application
+
+![newimage](https://user-images.githubusercontent.com/51777024/95162897-4b1b5900-07c4-11eb-9362-cf69cf01d254.jpg)
+
+# Step1: 
+
+## Add the Recyclerview Dependency at build.gradle(Module:app)
+
+```
+implementation 'com.android.support:recyclerview-v7:28.0.0'
+ 
+```
+
+# Step2
+
+Api link ="https://www.googleapis.com/books/v1/volumes?q=android"
 
 
+
+
+
+
+```
+<paste it here>
+```
+```
+<paste it here>
+```
+
+
+ 
