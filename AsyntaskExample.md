@@ -62,27 +62,370 @@ implementation 'com.android.support:recyclerview-v7:28.0.0'
 
 # Step3
 
-## Copy the url data into a json formattter website
+## Copy the url data into a json formattter website.
 
 ![image5](https://user-images.githubusercontent.com/51777024/95163831-596a7480-07c6-11eb-9121-fe01c65a2b65.PNG)
 
 # Step4
 
-## check given json data is valid are not
+## check given json data is valid are not.
 
 ![image6](https://user-images.githubusercontent.com/51777024/95163838-5c656500-07c6-11eb-853b-5e40990c258d.PNG)
 
 
+# Step5
+
+## Create the ArrayList Class Name As Book .
+
+```
+package com.example.acer.gopalbook;
+
+public class Book
+{
+    String title;
+    String sub;
+    String author;
+    String img;
+    public Book() {
+        this.title = title;
+        this.sub = sub;
+        this.author = author;
+        this.img = img;
+    }
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSub() {
+        return sub;
+    }
+
+    public void setSub(String sub) {
+        this.sub = sub;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
 
+}
+
+```
+# Step6
+
+## create an AsynTask Class Name is MyTask extends AsyncTask
+
+```
+package com.example.acer.gopalbook;
+
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+
+class MyTask  extends AsyncTask<Void,String,String> {
+    Context context;
+    int position;
+    ProgressDialog pd;
+    String BASE_URL="https://www.googleapis.com/books/v1/volumes?q=android";
+    RecyclerView rv;
+
+    public MyTask(Context context,RecyclerView rv,int position) {
+        this.context = context;
+        this.rv=rv;
+        this.position=position;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        pd=new ProgressDialog(context);
+        pd.setTitle("Please wait");
+        pd.setMessage("Books info is loading");
+        pd.show();
+    }
+
+    @Override
+    protected String doInBackground(Void... voids) {
+        Uri uri=Uri.parse(BASE_URL);
+        try {
+            URL url=new URL(uri.toString());
+            HttpURLConnection connection= (HttpURLConnection) url.openConnection();
+            connection.connect();
+            InputStream inputStream=connection.getInputStream();
+            BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
+            String temp="";
+            StringBuilder sb=new StringBuilder();
+            while ((temp=bufferedReader.readLine())!=null){
+                sb.append(temp);
+            }
+            connection.disconnect();
+            return sb.toString();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        pd.dismiss();
+        String image[]=new String[10];
+        String title[]=new String[10];
+        String authors[]=new String[10];
+        String publisher[]=new String[10];
+        String date[]=new String[10];
+        String descr[]=new String[10];
+        try {
+            JSONObject root=new JSONObject(s);
+            JSONArray items=root.getJSONArray("items");
+            authors[0]="";
+            for(int i=0;i<10;i++){
+                JSONObject info=items.getJSONObject(i);
+                JSONObject volume=info.getJSONObject("volumeInfo");
+                String temp=volume.getString("title");
+                title[i]=temp;
+                temp=volume.optString("description");
+                descr[i]=temp;
+                temp=volume.optString("publisher");
+                publisher[i]=temp;
+                temp=volume.optString("publishedDate");
+                date[i]=temp;
+                JSONArray auth=volume.getJSONArray("authors");
+                temp="";
+                for (int j=0;j<auth.length();j++){
+                    temp=temp+auth.getString(j)+",";
+                    authors[i]=temp;
+                }
+                JSONObject img=volume.getJSONObject("imageLinks");
+                temp=img.getString("thumbnail");
+                image[i]=temp;
+            }
+            MyAdapter adapter=new MyAdapter(context,image,title,authors,date,descr,publisher);
+            rv.setAdapter(adapter);
+            rv.setLayoutManager(new LinearLayoutManager(context));
+            rv.scrollToPosition(position);
+            rv.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
+```
+
+# Step 7
+
+## activity_main.xml
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+<android.support.v7.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/rec">
+
+
+</android.support.v7.widget.RecyclerView>
+
+
+</LinearLayout>
+```
+
+# Step8 
+
+## .MainActivity
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+<android.support.v7.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/rec">
+
+
+</android.support.v7.widget.RecyclerView>
+
+
+</LinearLayout>
+
+```
+# Step 9
+
+## row.xml file
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/img_books"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_title"
+                android:text="title"
+                android:textSize="25sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_authors"
+                android:textSize="25sp"
+                android:text="authors"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>
 
 
 ```
-<paste it here>
+
+# Step10
+
+## MyAdapter Class
+
 ```
-```
-<paste it here>
-```
+package com.example.acer.gopalbook;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+class MyAdapter extends RecyclerView.Adapter<MyAdapter.BooksInfo> {
+    Context context;
+    String image_url[];
+    String title[];
+    String authors[];
+    String date[];
+    String description[];
+    String publisher[];
+
+    public MyAdapter(Context context,String image[], String title[], String[] authors, String[] date, String[] description, String[] publisher) {
+        this.context = context;
+        this.title = title;
+        this.authors = authors;
+        this.date = date;
+        this.description = description;
+        this.publisher = publisher;
+        this.image_url=image;
+    }
+
+    @NonNull
+    @Override
+    public BooksInfo onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(context).inflate(R.layout.row,parent,false);
+        return new BooksInfo(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BooksInfo holder, final int position) {
+        Picasso.with(context).load(image_url[position]).into(holder.img);
+        holder.tv1.setText(""+title[position]);
+        holder.tv2.setText(""+authors[position]);
+
+    }
+
+    @Override
+    public int getItemCount() {
+        //if(title!=null)
+        return title.length;
+        //else
+        //  return 0;
+    }
+
+    public class BooksInfo extends RecyclerView.ViewHolder {
+        ImageView img;
+        TextView tv1,tv2;
+
+        public BooksInfo(View itemView) {
+            super(itemView);
+            img=itemView.findViewById(R.id.img_books);
+            tv1=itemView.findViewById(R.id.tv_title);
+            tv2=itemView.findViewById(R.id.tv_authors);
+        }
+    }
+}
 
 
+```
  
