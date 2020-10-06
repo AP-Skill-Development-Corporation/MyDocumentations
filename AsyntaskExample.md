@@ -41,4 +41,7 @@ It contains information about progress units. While doing background operation w
 
 It contains information about result type.
 
+Sample Asyntak Example Application
+
+![Screenshot_20201006_110301](https://user-images.githubusercontent.com/51777024/95162698-d5af8880-07c3-11eb-85e5-bb640c289f27.jpg)
 
