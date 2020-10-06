@@ -56,7 +56,21 @@ implementation 'com.android.support:recyclerview-v7:28.0.0'
 
 # Step2
 
-Api link ="https://www.googleapis.com/books/v1/volumes?q=android"
+## Api link ="https://www.googleapis.com/books/v1/volumes?q=android" acces the url 
+
+![image4](https://user-images.githubusercontent.com/51777024/95163825-566f8400-07c6-11eb-98d4-c6cc2f289c6b.PNG)
+
+# Step3
+
+## Copy the url data into a json formattter website
+
+![image5](https://user-images.githubusercontent.com/51777024/95163831-596a7480-07c6-11eb-9121-fe01c65a2b65.PNG)
+
+# Step4
+
+## check given json data is valid are not
+
+![image6](https://user-images.githubusercontent.com/51777024/95163838-5c656500-07c6-11eb-853b-5e40990c258d.PNG)
 
 
 
