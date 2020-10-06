@@ -284,27 +284,35 @@ class MyTask  extends AsyncTask<Void,String,String> {
 ## .MainActivity
 
 ```
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+package com.example.acer.gopalbook;
 
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.EditText;
 
-<android.support.v7.widget.RecyclerView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/rec">
+public class MainActivity extends AppCompatActivity {
+    RecyclerView recyclerView;
 
+    EditText book;
 
-</android.support.v7.widget.RecyclerView>
+    static int position=0;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        recyclerView=findViewById(R.id.rec);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+        MyTask task=new MyTask(this,recyclerView,position);
+        task.execute();
 
-</LinearLayout>
+    }
+
+}
 
 ```
 # Step 9
