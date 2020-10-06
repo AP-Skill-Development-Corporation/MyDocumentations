@@ -11,20 +11,34 @@ This library does the same thing AsyncTask does – runs code on background thre
  
 # Methods of AsyncTask
 
-## onPreExecute() − Before doing background operation we should show something on screen like progressbar or any animation to user. we can directly comminicate background operation using on doInBackground() but for the best practice, we should call all asyncTask methods .
+## onPreExecute() 
 
-## doInBackground(Params) − In this method we have to do background operation on background thread. Operations in this method should not touch on any mainthread activities or fragments.
+Before doing background operation we should show something on screen like progressbar or any animation to user. we can directly comminicate background operation using on doInBackground() but for the best practice, we should call all asyncTask methods .
 
-## onProgressUpdate(Progress…) − While doing background operation, if you want to update some information on UI, we can use this method.
+## doInBackground(Params)
 
-## onPostExecute(Result) − In this method we can update ui of background operation result.
+In this method we have to do background operation on background thread. Operations in this method should not touch on any mainthread activities or fragments.
+
+## onProgressUpdate(Progress…)
+
+While doing background operation, if you want to update some information on UI, we can use this method.
+
+## onPostExecute(Result)
+
+In this method we can update ui of background operation result.
 
 Generic Types in Async Task
 
-## TypeOfVarArgParams − It contains information about what type of params used for execution.
+## TypeOfVarArgParams 
 
-## ProgressValue − It contains information about progress units. While doing background operation we can update information on ui using onProgressUpdate().
+It contains information about what type of params used for execution.
 
-## ResultValue −It contains information about result type.
+## ProgressValue 
+
+It contains information about progress units. While doing background operation we can update information on ui using onProgressUpdate().
+
+## ResultValue
+
+It contains information about result type.
 
 
