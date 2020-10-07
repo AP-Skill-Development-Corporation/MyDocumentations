@@ -114,3 +114,18 @@ The Android Studio Screen should look similar to the screenshot below. If you se
 5.Switch between the Design and Text tabs (8). Some UI changes can only be made in code, and some are quicker to accomplish in the virtual device.
 
 6.When you're done, undo the changes (for UI changes, use Edit > Undo or the keyboard shortcut for the operating system).
+
+See the Android Studio User Guide for the full Android Studio documentation.
+
+```
+Note: If you get an error about a missing App Theme, try File > Invalidate Caches / Restart or choose a theme that does not generate the error. Additional help can be found in this stackoverflow post.
+
+```
+
+
+```
+
+```
+```
+
+```
