@@ -188,7 +188,7 @@ In this task you will delete the current TextView (for practice), and add a new 
 
 To identify each view uniquely within an activity, each view needs a unique ID. And to be of any use, the buttons need labels and the text view needs to show some text. Double-click each element in the Component Tree to see its properties and change the text and ID strings as follows:
 
-Image11
+![image11](https://user-images.githubusercontent.com/51777024/95296557-9aca5500-0896-11eb-92e0-3b14c6ba8d53.PNG)
 
 1.Run your app.
 
@@ -196,7 +196,7 @@ Image11
 
 There should be three Views on your screen. They won't match the image below, but as long as you have three Views in a vertical layout, you are doing fine!
 
-Image12
+![image12](https://user-images.githubusercontent.com/51777024/95296565-9dc54580-0896-11eb-82cf-21735ba9253a.PNG)
 
 ## Challenge:
 Think of an app you might want and create a project and layout for it using Layout Editor. Explore more of the features of Layout Editor. As mentioned before, the Layout Editor has a rich set of features and coding shortcuts. Check the Android Studio documentation to dive deeper.
@@ -233,7 +233,7 @@ The orientation can be:
 
 Change the LinearLayout of "Hello Toast" as follows:
 
-image15
+![image15](https://user-images.githubusercontent.com/51777024/95296573-a1f16300-0896-11eb-9c89-bfd90f5d785d.PNG)
 
 # 3.2 Create string resources
 
@@ -253,7 +253,7 @@ This creates a string resource in the values/res/string.xml file, and the string
 ```
 5.Extract and name the remaining strings from the views as follows
 
-image16
+![image16](https://user-images.githubusercontent.com/51777024/95296581-a61d8080-0896-11eb-835b-ec6e6d8e3fc2.PNG)
 
 6.In the Project view, navigate to values/strings.xml to find your strings. Now, you can edit all your strings in one place.
 
@@ -345,7 +345,7 @@ android:background="#FFFF00"
 
 Specifying gravity and weight properties gives you additional control over arranging views and content in linear layouts.
 
-image17
+![image17](https://user-images.githubusercontent.com/51777024/95296590-a9187100-0896-11eb-9101-d37b0cb18c45.PNG)
 
 1.The android:layout_gravity attribute specifies how a view is aligned within its parent View. Because the views match their parent in width, it is not necessary to set this explicitly. You can center a view that is narrow horizontally in its parent: android:layout_gravity="center_horizontal"
 
@@ -650,3 +650,4 @@ countUp Method:
             mShowCount.setText(Integer.toString(mCount));
     }
 ```
+# THANK YOU 
