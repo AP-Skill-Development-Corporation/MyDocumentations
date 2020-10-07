@@ -79,6 +79,7 @@ Views used for Hello Toast are:
 
 Here is a rough sketch of the UI you will build in this exercise. Simple UI sketches can be very useful for deciding which views to use and how to arrange them, especially when your layouts become more sophisticated.
 
+![image9](https://user-images.githubusercontent.com/51777024/95292699-9e0e1280-088f-11eb-96d2-f97c93176a78.png)
 
 # 2.1 Explore the Layout Editor
 
@@ -92,6 +93,7 @@ The Android Studio Screen should look similar to the screenshot below. If you se
 
 2.Using the annotated screenshot below as a guideline, explore the Layout Editor.
 
+![image10](https://user-images.githubusercontent.com/51777024/95292714-a49c8a00-088f-11eb-8071-66cc00895dcf.png)
 
 3.Find the different ways in which the "Hello World" string's UI element, a TextView, is represented.
 
@@ -120,8 +122,6 @@ See the Android Studio User Guide for the full Android Studio documentation.
 Note: If you get an error about a missing App Theme, try File > Invalidate Caches / Restart or choose a theme that does not generate the error. Additional help can be found in this stackoverflow post.
 
 ```
-
 ```
 ```
-
 ```
