@@ -280,9 +280,373 @@ Why: Extracting styles and colors makes it easy to use them consistently through
 
 Experiment with the following changes:
 
+1.Change the text size of the show_count TextView. "sp" stands for scale-independent pixel, and like dp, is a unit that scales with the screen density and user's font size preference. It is recommend you use this unit when specifying font sizes, so they will be adjusted for both the screen density and the user's preference.
+
 ```
+android:textSize="160sp"
+
 ```
+2.Extract the text size of the TextView as a dimension resource named count_text_size, as follows:
+
+a.Click the Text tab to show the XML code, if you haven't already done so.
+
+b.Place the cursor on "160sp".
+
+c.Press Alt-Enter (Option-Enter on the Mac).
+
+d.Click Extract dimension resource.
+
+e.Set the Resource name to count_text_size, and click OK. (If you make a mistake, you can undo the change with Ctrl-Z).
+
+f.In the Project view, navigate to values/dimens.xml to find your dimensions. The dimens.xml file applies to all devices. The dimens.xml file for w820dp applies only to devices that are wider than 820dp.
+
+3.Change the textStyle of the show_count TextView to bold
 ```
+android:textStyle="bold"
+
 ```
+4.Change the text color in the show_count text view to the primary color of the theme. Look at the colors.xml resource file to see how they are defined.
+
+The colorPrimary is one of the predefined theme base colors and is used for the app bar. For example, In a production app, you could customize this to fit your brand. Using the base colors for other UI elements creates a uniform UI. See Using the Material Theme. You will learn more about app themes and material design in a later practical.
+
 ```
+android:textColor="@color/colorPrimary"
+
+```
+5.Change the color of both the buttons to the primary color of the theme.
+```
+android:background="@color/colorPrimary"
+```
+6.Change the color of the text in both buttons to white. White is one of the colors provided as an Android Platform Resource. See Accessing Resources.
+
+```
+android:textColor="@android:color/white"
+
+```
+7.Add a background color to the TextView.
+
+```
+android:background="#FFFF00"
+
+```
+8.In the Layout Editor (Text tab), place your mouse cursor over this color and press Alt-Enter (Option-Enter on the Mac).
+
+9.Select Choose color, which brings up the color picker, pick a color you like, or go with the current yellow, then click Choose.
+
+10.Open values/colors.xml. Notice that colorPrimary that you used earlier is defined here.
+
+11Using the colors in values/colors.xml as an example, add a resource named myBackgroundColor for your background color, and then use it to set the background of the text view.
+
+```
+<color name="myBackgroundColor">#FFF043</color>
+
+```
+# 3.5 Gravity and weight
+
+Specifying gravity and weight properties gives you additional control over arranging views and content in linear layouts.
+
+image17
+
+1.The android:layout_gravity attribute specifies how a view is aligned within its parent View. Because the views match their parent in width, it is not necessary to set this explicitly. You can center a view that is narrow horizontally in its parent: android:layout_gravity="center_horizontal"
+
+2.The android:layout_weight attribute indicates how much of the extra space in the LinearLayout will be allocated to the views that have this parameter set. If only one view has this attribute, it gets all the extra screen estate. For multiple views, the space is pro-rated. For example, if the buttons have a weight of 1 and the text view 2, totalling 4, the buttons get ¼ of the space each, and the textview half.
+
+3.The android:gravity attribute specifies the alignment of the content of a View within the View itself. The counter is centered in its view with: android:gravity="center"
+
+Do the following:
+
+1.Center the text in a the show_count TextView horizontally and vertically: android:gravity="center"
+
+2.Make the show_count TextView adjust to the size of the screen
+
+```
+android:layout_weight="2"
+
+```
+## Sample Solution: strings.xml
+
+```
+<resources>
+    <string name="app_name">Hello Toast</string>
+    <string name="button_label_count">Count</string>
+    <string name="button_label_toast">Toast</string>
+    <string name="count_initial_value">0</string>
+</resources>
+
+```
+## Sample Solution: dimens.xml
+
+```
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="count_text_size">160sp</dimen>
+</resources>
+
+```
+## Sample Solution: colors.xml
+
+```
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="myBackgroundColor">#FFF043</color>
+</resources>
+
+```
+## Sample Solution: activity_main.xml
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="hellotoast.android.example.com.hellotoast.MainActivity">
+
+
+    <Button
+        android:id="@+id/button_toast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_label_toast"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white" />
+
+
+    <TextView
+        android:id="@+id/show_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/count_initial_value"
+        android:textSize="@dimen/count_text_size"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:background="@color/myBackgroundColor"
+        android:layout_weight="2" />
+
+
+    <Button
+        android:id="@+id/button_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_label_count"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white" />
+</LinearLayout>
+
+```
+## Coding challenge
+
+Note: All coding challenges are optional and are not prerequisites for later chapters.
+Create a new project with 5 views. Have one view use the top-half of the screen, and the other 4 views share the bottom half of the screen. Use only a LinearLayout, gravity, and weights to accomplish this.
+Use an image as the background of the Hello Toast app. Add an image to the drawable folder, then set it as the background of the root view. For a deep dive into drawables, see the Drawable Resources documentation.
+
+# Task 4: Add onClick handlers for the buttons
+
+In this task, you will add methods to your MainActivity that execute when the user clicks on each button.
+
+Why: Interactive apps must respond to user input.
+
+To connect a user action in a view to application code, you need to do two things:
+
+* Write a method that performs a specific action when a user user clicks an on-screen button.
+
+* Associate this method to the view, so this method is called when the user interacts with the view.
+
+# 4.1 Add an onClick property to a button
+
+A click handler is a method that is invoked when the user clicks on a user interface element. In Android, you can specify the name of the click handler method for each view in the XML layout file with the android:onClick property.
+
+1.Open res/layout/activity_main.xml.
+
+2.Add the following property to the button_toast button
+
+```
+android:onClick="showToast"
+
+```
+3.Add the following attribute to thebutton_count button.
+
+```
+android:onClick="countUp"
+```
+4.Inside of activity_main.xml, place your mouse cursor over each of these method names.
+
+5.Press Alt-Enter (Option-Enter on the Mac), and select Create onClick event handler.
+
+6.Choose the MainActivity and click OK.
+
+This creates placeholder method stubs for the onClick methods in MainActivity.java.
+
+Note: You can also add click handlers to views programmatically, which you will do in a later practical. Whether you add click handlers in XML or programmatically is largely a personal choice; though, there are situations where you can only do it programmatically.
+
+## Solution MainActivity.java:
+
+```
+package hellotoast.android.example.com.hellotoast;
+
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+
+
+public class MainActivity extends AppCompatActivity {
+
+
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+       setContentView(R.layout.activity_main);
+   }
+
+
+   public void countUp(View view) {
+        // What happens when user clicks on the button_count Button goes here.
+   }
+
+
+   public void showToast(View view) {
+        // What happens when user clicks on the button_toast Button goes here.
+   }
+}
+
+```
+# 4.2 Show a toast when the Toast button is clicked
+
+A toast provides simple feedback about an operation in a small popup. It only fills the amount of space required for the message and the current activity remains visible and interactive. Toasts provide another way for you to test the interactivity of your app.
+
+In MainActivity.java, add code to the showToast() method to show a toast message.
+
+To create an instance of a Toast, you call the makeText() factory method on the Toast class, supplying a context (see below), the message to display, and the duration of display. You display the toast calling show(). This is a common pattern that you can reuse the code you are going to write.
+
+1.Get the context of the application.
+
+Displaying a Toast message requires a context. The context of an application contains global information about the application environment. Since a toast displays on top of the visible UI, the system needs information about the current activity. Context context = getApplicationContext();
+
+When you are already in the context of the activity whose context you need, you can also use this as the shortcut to the context.
+
+2.The length of a toast string can be either short or long, and you specify which one by using a Toast constant.
+
+* Toast.LENGTH_LONG
+* Toast.LENGTH_SHORT
+
+The actual lengths are about 3.5s for the long toast and 2s for the short toast. The values are specified in the Android source code. See this Stackoverflow post details.
+
+3.Create an instance of the Toast class with the context, message, and duration.
+
+* The context is the application context we got earlier.
+* The message is the string you want to display
+* The duration is one of the predefined constants Toast.LENGTH_LONG orToast.LENGTH_SHORT.
+```
+Toast toast = Toast.makeText(context, "Hello Toast", Toast.LENGTH_LONG);
+```
+4.Extract the "Hello Toast" string into a string resource and call it toast_message.
+
+a.Place the cursor on the string "Hello Toast!".
+
+b.Press Alt-Enter (Option-Enter on the Mac).
+
+c.Select Extract string resources.
+
+d.Set the Resource name to toast_message and click OK.
+
+This will store "Hello World" as a string resource name toast_message in the string resources file res/values/string.xml. The string parameter in your method call is replaced with a reference to the resource.
+
+* R. identifies the parameter as a resource.
+* string references the name of the XML file where the resources is defined.
+* toast_message is the name of the resource.
+
+```
+Toast toast = Toast.makeText(context, R.string.toast_message, duration);
+```
+5.Display the toast.
+
+```
+toast.show();
+
+```
+6.Run your app and verify the toast shows when the Toast button is tapped.
+
+## Solution:
+
+```
+/*
+* When the TOAST button is clicked, show a toast.
+*
+* @param view The view that triggers this onClick handler.
+*             Since a toast always shows on the top, view is not used.
+* */
+public void showToast(View view) {
+    // Create a toast show it.
+    Toast toast = Toast.makeText(this, R.string.toast_message, Toast.LENGTH_LONG;);
+    toast.show();
+}
+
+```
+# 4.3 Increase the count in the text view when the Count button is clicked
+
+To display the current count in the text view:
+
+* Keep track of the count as it changes.
+
+* Send the updated count to the text view to display it on the user interface.
+
+Implement this as follows:
+
+1.In MainActivity.java, add a private member variable mCount to track the count and start it at 0.
+
+2.In MainActivity.java, add a private member variable mShowCount to get the reference of the show_count TextView.
+
+3.In the countUp() method, increase the value of the count variable each time the button is clicked.
+
+4.Get a reference to the text view using the ID you set in the layout file.
+
+Views, like strings and dimensions, are resources that can have an id. The findViewById() call takes the ID of a view as its parameter and returns the view. Because the method returns a View, you have to cast the result to the view type you expect, in this case (TextView).
+
+In order to get this resource only once, use a member variable and set it in onCreate().
+
+```
+mShowCount = (TextView) findViewById(R.id.show_count);
+
+```
+5.Set the text in the text view to the value of the count variable.
+
+```
+ if (mShowCount != null)
+        mShowCount.setText(Integer.toString(mCount));
+```
+6.Run your app to verify that the count increases when the Count button is pressed.
+
+## Solution:
+
+## Class definition and initializing count variable:
+
+```
+public class MainActivity extends AppCompatActivity {
+private int mCount = 0;
+private TextView mShowCount;
+
+```
+## in onCreate():
+
+```
+mShowCount = (TextView) findViewById(R.id.show_count);
+
+
+countUp Method:
+    public void countUp(View view) {
+        mCount++;
+        if (mShowCount != null)
+            mShowCount.setText(Integer.toString(mCount));
+    }
 ```
