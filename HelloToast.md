@@ -59,13 +59,7 @@ In this practical, you will design and implement a project for the "Hello Toast"
 
 * Start Android Studio and create a new project with the following parameters:
 
-Attribute     	                         Value
-Application Name	                       Hello Toast
-Company Name	                           com.example.android or your own domain
-Phone and Tablet Minimum SDK	           API15: Android 4.0.3 IceCreamSandwich
-Template	                               Empty Activity
-Generate Layout file box	               Checked
-Backwards Compatibility box	             Checked
+
 
 * Select Run > Run app or click the Run icon Run Icon in the toolbar to build and execute the app on the emulator or your device.
 
