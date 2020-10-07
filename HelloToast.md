@@ -117,11 +117,7 @@ The Android Studio Screen should look similar to the screenshot below. If you se
 
 See the Android Studio User Guide for the full Android Studio documentation.
 
-```
 Note: If you get an error about a missing App Theme, try File > Invalidate Caches / Restart or choose a theme that does not generate the error. Additional help can be found in this stackoverflow post.
-
-```
-
 
 ```
 
