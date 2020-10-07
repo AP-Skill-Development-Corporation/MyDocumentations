@@ -17,6 +17,8 @@ Android makes it straightforward to clearly separate UI elements and data from e
 
 You will work with Activities and Views throughout this book.
 
+![image8](https://user-images.githubusercontent.com/51777024/95291325-ea0b8800-088c-11eb-9b58-46e8ff7aa196.png)
+
 
 # What you should already KNOW
 
@@ -59,7 +61,7 @@ In this practical, you will design and implement a project for the "Hello Toast"
 
 * Start Android Studio and create a new project with the following parameters:
 
-
+![image7](https://user-images.githubusercontent.com/51777024/95291335-ed9f0f00-088c-11eb-907f-e405dd41843d.PNG)
 
 * Select Run > Run app or click the Run icon Run Icon in the toolbar to build and execute the app on the emulator or your device.
 
