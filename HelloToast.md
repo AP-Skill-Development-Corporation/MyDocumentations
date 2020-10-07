@@ -65,4 +65,52 @@ In this practical, you will design and implement a project for the "Hello Toast"
 
 * Select Run > Run app or click the Run icon Run Icon in the toolbar to build and execute the app on the emulator or your device.
 
+# Task 2: Add views to "Hello Toast" in the Layout Editor
 
+In this task, you will create and configure a user interface for the "Hello Toast" app by arranging view UI components on the screen.
+
+Why: Every app should start with the user experience, even if the initial implementation is very basic.
+
+Views used for Hello Toast are:
+
+* TextView - A view that displays text.
+* Button - A button with a label that is usually associated with a click handler.
+* LinearLayout - A view that acts as a container to arrange other view. This type of view extends the ViewGroup class and is also called a view group. LinearLayout is a basic * view group that arranges its collection of views in a horizontal or vertical row.
+
+Here is a rough sketch of the UI you will build in this exercise. Simple UI sketches can be very useful for deciding which views to use and how to arrange them, especially when your layouts become more sophisticated.
+
+
+# 2.1 Explore the Layout Editor
+
+Use the Layout Editor to create the layout of the user interface elements, and to preview your app using different devices and app themes, resolutions, and orientations.
+
+Refer to the screenshot below to match
+
+1.In the app > res > layout folder, open the activiy_main.xml file (1).
+
+The Android Studio Screen should look similar to the screenshot below. If you see the XML code for the UI layout, click the Design tab below the Component Tree (8).
+
+2.Using the annotated screenshot below as a guideline, explore the Layout Editor.
+
+
+3.Find the different ways in which the "Hello World" string's UI element, a TextView, is represented.
+
+* In the Palette of UI elements (2) developers can create a text view by dragging it into the design pane.
+
+* Visually, in the Design pane (6).
+
+* In the Component Tree (7), as a component in a hierarchy of UI elements called the View Hierarchy. That is, views are organized into a tree hierarchy of parents and children, where children inherit properties of their parents.
+
+* In the Properties pane (4), as a list of its properties, where "Hello Toast" is the value of the text property of the TextView (5).
+
+4.Use the selectors above the virtual device (3) to do the following:
+
+* Change the theme for your app.
+* Change the rotation to landscape.
+* Use a different version of the SDK.
+* Preview layout variants such as a right-to-left layout direction.
+* Use the tooltips on the icons to help you discover their function.
+
+5.Switch between the Design and Text tabs (8). Some UI changes can only be made in code, and some are quicker to accomplish in the virtual device.
+
+6.When you're done, undo the changes (for UI changes, use Edit > Undo or the keyboard shortcut for the operating system).
