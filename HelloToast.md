@@ -17,8 +17,7 @@ Android makes it straightforward to clearly separate UI elements and data from e
 
 You will work with Activities and Views throughout this book.
 
-![image8](https://user-images.githubusercontent.com/51777024/95291325-ea0b8800-088c-11eb-9b58-46e8ff7aa196.png)
-
+![helo](https://user-images.githubusercontent.com/51777024/95300824-58584680-089d-11eb-8722-9e46fe803611.PNG)
 
 # What you should already KNOW
 
