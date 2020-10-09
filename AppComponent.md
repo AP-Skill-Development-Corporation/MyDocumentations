@@ -1,9 +1,12 @@
+# Android App Componets
+
+![appcomp2](https://user-images.githubusercontent.com/51777024/95586828-d6178000-0a5e-11eb-94a7-9b0119ae34fa.jpg)
 
 Application components are the essential building blocks of an Android application. These components are loosely coupled by the application manifest file AndroidManifest.xml that describes each component of the application and how they interact.
 
 There are following four main components that can be used within an Android application −
 
-
+![appcompo](https://user-images.githubusercontent.com/51777024/95586866-e9c2e680-0a5e-11eb-9c02-56fbb586a303.PNG)
 
 Activities
 An activity represents a single screen with a user interface,in-short Activity performs actions on the screen. For example, an email application might have one activity that shows a list of new emails, another activity to compose an email, and another activity for reading emails. If an application has more than one activity, then one of them should be marked as the activity that is presented when the application is launched.
@@ -40,3 +43,4 @@ We will go through these tags in detail while covering application components in
 Additional Components
 There are additional components which will be used in the construction of above mentioned entities, their logic, and wiring between them. These components are −
 
+![appcomp2](https://user-images.githubusercontent.com/51777024/95586884-f0515e00-0a5e-11eb-89d8-b2b15e95ab4d.PNG)
