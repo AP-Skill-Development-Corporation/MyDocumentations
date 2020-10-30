@@ -166,5 +166,9 @@ Let's see the full code of AndroidManifest.xml file.
 ```
 ## Output:
 
-```
-```
+![a1](https://user-images.githubusercontent.com/51777024/97670638-ad5a3780-1aac-11eb-8374-bc09657c94d5.png)
+
+![a2](https://user-images.githubusercontent.com/51777024/97670641-b0552800-1aac-11eb-80bf-1857cac4795a.png)
+
+![a3](https://user-images.githubusercontent.com/51777024/97670648-b4814580-1aac-11eb-867c-048f34af3e88.png)
+
