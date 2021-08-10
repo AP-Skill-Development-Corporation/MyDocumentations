@@ -79,41 +79,38 @@ To run the Kotlin .jar (hello.jar) file run the following command.
 java -jar hello.jar  
 
 ```
+![bb](https://user-images.githubusercontent.com/51777024/128831796-f48d3829-e1c0-48c1-a144-ee8785af71c4.png)
 
+# Kotlin First Program Concept
 
-
-```
-
-```
-
-```
+Let's understand the concepts and keywords of Kotlin program 'Hello World.kt'.
 
 ```
+fun main(args: Array<String>) {  
+    println("Hello World!")  
+}  
 
 ```
+1. The first line of program defines a function called main(). In Kotlin, function is a group of statements that performs a group of tasks. Functions start with a keyword fun followed by function name (main in this case).
+
+The main () function takes an array of string (Array<String>) as a parameter and returns Unit. Unit is used to indicate the function and does not return any value (void as in Java). Declaring Unit is an optional, we do not declare it explicitly.
 
 ```
+    fun main(args: Array<String>): Unit {  
+//  
+}
 
 ```
+The main() function is the entry point of the program, it is called first when Kotlin program starts execution.
 
+2. The second line used to print a String "Hello World!". To print standard output we use wrapper println() over standard Java library functions (System.out.println()).   
+    
 ```
-
+println("Hello World!")  
+    
 ```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
+    
+    
 ```
 
 ```
