@@ -131,7 +131,18 @@ In this tutorial, we are going to use IntelliJ IDEA for our Kotlin program devel
 
 # Steps to Setup IntelliJ IDEA
     
-1. Download IntelliJ IDEA.    
+1. Download IntelliJ IDEA.     
+![cc](https://user-images.githubusercontent.com/51777024/128833129-d78d6ed5-8763-4930-a2a0-4da8a685a638.png)
+2. Run the downloaded setup.    
+![dd](https://user-images.githubusercontent.com/51777024/128833154-674da498-2090-40a6-a69b-81e5398e80c0.png)
+3. Click next to continue   
+![ee](https://user-images.githubusercontent.com/51777024/128833165-80a601fa-d078-469f-a507-498aafde7d75.png)
+4. Choose installation location.    
+![ff](https://user-images.githubusercontent.com/51777024/128833177-f1cd47bc-a390-4722-a7fd-df847bdb512d.png)
+5. Choose start menu folder and click Install.    
+![gg](https://user-images.githubusercontent.com/51777024/128833187-f4cddf4e-5651-45ac-a727-5a5d051a6033.png)
+6. Click Finish to complete Installation.    
+![hh](https://user-images.githubusercontent.com/51777024/128833220-2cc41cc2-a5f2-462b-bcd3-68b8656e7e97.png)
     
    
     
