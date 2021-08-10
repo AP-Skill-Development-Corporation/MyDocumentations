@@ -23,4 +23,4 @@ In this Android Tutorial, we shall learn to use Kotlin language support in Andro
 
 Following is a screenshot of what we shall achieve by the end of this tutorial.
 
-https://docs.google.com/document/d/1p-1eikugCM1TX3J5jOoZ0tmnMakeI1qMFeRziz9v5rw/edit#heading=h.cu6k6q7uy8pa
+
