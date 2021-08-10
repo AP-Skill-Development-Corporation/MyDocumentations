@@ -143,14 +143,30 @@ In this tutorial, we are going to use IntelliJ IDEA for our Kotlin program devel
 ![gg](https://user-images.githubusercontent.com/51777024/128833187-f4cddf4e-5651-45ac-a727-5a5d051a6033.png)
 6. Click Finish to complete Installation.    
 ![hh](https://user-images.githubusercontent.com/51777024/128833220-2cc41cc2-a5f2-462b-bcd3-68b8656e7e97.png)
+ 
+# Kotlin First Program Printing 'HelloWorld'
     
+Let's create a Kotlin first example using IntelliJ IDEA IDE.
+
+## Steps to Create First Example
+    
+1. Open IntelliJ IDEA and click on Create New Project'.
    
+  
+    
+    
+    
+    
+    
     
     
 ```
 
 ```
+    
+```
 
+```
 
 
 
