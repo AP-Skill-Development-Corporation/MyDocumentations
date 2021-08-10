@@ -69,13 +69,17 @@ Open command prompt and go to directory location where file is stored. Compile h
 kotlinc hello.kt -include-runtime -d hello.jar  
 
 ```
+![aa](https://user-images.githubusercontent.com/51777024/128831545-dd5e9184-92a7-4e0f-bb62-82bf6e1d0184.png)
 
+#  Run Kotlin File
 
+To run the Kotlin .jar (hello.jar) file run the following command.
 
+```
+java -jar hello.jar  
 
 ```
 
-```
 
 
 ```
