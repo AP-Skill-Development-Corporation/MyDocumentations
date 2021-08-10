@@ -150,7 +150,41 @@ Let's create a Kotlin first example using IntelliJ IDEA IDE.
 
 ## Steps to Create First Example
     
-1. Open IntelliJ IDEA and click on Create New Project'.
+1. Open IntelliJ IDEA and click on Create New Project'.    
+![0](https://user-images.githubusercontent.com/51777024/128834074-14133645-89e0-42cb-9019-ac4c5f03b8f1.png)
+    
+2. Select Java option, provide project SDK path and mark check on Kotlin/JVM frameworks.    
+![1](https://user-images.githubusercontent.com/51777024/128834081-1b6c6e35-8831-498d-ba9f-f231cb9cf9ea.png)
+    
+3. Provide the project details in new frame and click 'Finish'.    
+![2](https://user-images.githubusercontent.com/51777024/128834088-31992d98-cc29-48c7-8ac7-053c40dcfcaf.png)
+    
+4. Create a new Kotlin file to run Kotlin first example. Go to src ->New->Kotlin File/Class.    
+![3](https://user-images.githubusercontent.com/51777024/128834100-1756a31e-9378-4735-be91-33a8b5d4e976.png)
+    
+5. Enter the file name 'HelloWorld' and click 'OK'.    
+![4](https://user-images.githubusercontent.com/51777024/128834128-af1b9997-f181-4457-8bc7-cec82aacbe02.png)
+6. Write the following code in 'HelloWorld.kt' file. Kotlin files and classes are saved with ".kt" extension.
+    
+    ```
+    fun main(args: Array<String>) {  
+    println("Hello World!")  
+}  
+
+```
+We will discuss the detail of this code later in upcoming tutorial.
+    
+![5](https://user-images.githubusercontent.com/51777024/128834149-02a45418-e9a2-4b1e-ad6d-899f8dcd2c82.png)
+    
+7. Now we can run this program by right clicking on file and select Run option.
+    
+![6](https://user-images.githubusercontent.com/51777024/128834164-2dff7c53-2301-470c-a035-b5280be14a3d.png)
+    
+ 8. Finally, we got the output of program on console, displaying 'HelloWorld' message.   
+    
+![7](https://user-images.githubusercontent.com/51777024/128834176-0c7dff18-26e0-4de6-9dbe-4a44622b0874.png)
+    
+![8](https://user-images.githubusercontent.com/51777024/128834192-ccb44040-6c47-487d-8d23-a0b71f6261b4.png)
    
   
     
@@ -160,9 +194,7 @@ Let's create a Kotlin first example using IntelliJ IDEA IDE.
     
     
     
-```
 
-```
     
 ```
 
