@@ -13,3 +13,23 @@ Kotlin was developed by JetBrains team. A project was started in 2010 to develop
 * Compilation Time: It has better performance and fast compilation time.
 * Tool-friendly: Kotlin programs are build using the command line as well as any of Java IDE.
 * Extension function: Kotlin supports extension functions and extension properties which means it helps to extend the functionality of classes without touching their code.
+
+# Kotlin Environment Setup (Command line)
+
+## Prerequisite
+
+Since Kotlin runs on JVM, it is necessary to install JDK and setup the JDK and JRE path in local system environment variable.
+
+To setup Kotlin for command line, you have to pre install JDK 1.6+ or above. To install JDK and set path of JDK and JRE refer link Set Path in Java .
+
+## Setup Kotlin for Command Line
+
+To setup Kotlin for command line, we need to go through following steps:
+
+1. Download the Kotlin Compiler from GitHub Releases https://github.com/JetBrains/kotlin/releases/tag/v1.2.21 .
+
+
+
+2. Extract downloaded zip in any of system location (in my case it is in C drive).
+
+3. Copy the path up to bin directory of kotlinc.
