@@ -33,3 +33,18 @@ To setup Kotlin for command line, we need to go through following steps:
 2. Extract downloaded zip in any of system location (in my case it is in C drive).
 
 3. Copy the path up to bin directory of kotlinc.
+
+![b](https://user-images.githubusercontent.com/51777024/128830600-dbe57430-6953-4363-93b2-3f8ef464188a.png)
+
+4. Open Computer properties and click Environment variables.
+
+![c](https://user-images.githubusercontent.com/51777024/128830614-465c1cfb-7078-4698-b1fc-a87626edddf7.png)
+
+5. Click on edit path
+
+![d](https://user-images.githubusercontent.com/51777024/128830627-0a210135-0e19-4a9e-a494-d5ea5a1bb3ad.png)
+
+6. Past the path of kotlinc bin directory in variable value.
+
+![e](https://user-images.githubusercontent.com/51777024/128830641-4a022726-13a4-469c-a44b-dac0f0405a31.png)
+
