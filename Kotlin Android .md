@@ -109,6 +109,31 @@ The main() function is the entry point of the program, it is called first when K
 println("Hello World!")  
     
 ```
+# Kotlin Environment Setup (IDE)
+    
+## Install JDK and Setup JDK path
+    
+Since, Kotlin runs on JVM, it is necessary to install JDK and setup the JDK and JRE path in local system environment variable. Use this link https://www.javatpoint.com/how-to-set-path-in-java to setup JDK path.
+
+## Install IDE for Kotlin
+    
+There are various Java IDE available which supports Kotlin project development. We can choose these IDE according to our compatibility. The download links of these IDE's are given below.
+
+IDE Name	    Download links
+    
+IntelliJ IDEA	https://www.jetbrains.com/idea/download/
+    
+Android Studio	https://developer.android.com/studio/preview/index.html
+    
+Eclipse     	https://www.eclipse.org/downloads/
+    
+In this tutorial, we are going to use IntelliJ IDEA for our Kotlin program development.
+
+# Steps to Setup IntelliJ IDEA
+    
+1. Download IntelliJ IDEA.    
+    
+   
     
     
 ```
