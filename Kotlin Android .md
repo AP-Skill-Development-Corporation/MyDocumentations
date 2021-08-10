@@ -166,6 +166,7 @@ Let's create a Kotlin first example using IntelliJ IDEA IDE.
 ![4](https://user-images.githubusercontent.com/51777024/128834128-af1b9997-f181-4457-8bc7-cec82aacbe02.png)
 6. Write the following code in 'HelloWorld.kt' file. Kotlin files and classes are saved with ".kt" extension.
     
+    
     ```
     fun main(args: Array<String>) {  
     println("Hello World!")  
@@ -196,9 +197,7 @@ We will discuss the detail of this code later in upcoming tutorial.
     
 
     
-```
 
-```
 
 
 
