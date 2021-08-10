@@ -48,3 +48,84 @@ To setup Kotlin for command line, we need to go through following steps:
 
 ![e](https://user-images.githubusercontent.com/51777024/128830641-4a022726-13a4-469c-a44b-dac0f0405a31.png)
 
+# Kotlin Hello World Program in Command line.
+
+To write Kotlin program, we can use any text editor like: Notepad++. Put the following code into any text file and save.
+
+
+```
+fun main(args: Array<String>){  
+    println("Hello World!")  
+}  
+
+```
+Save the file with name hello.kt, .kt extension is used for Kotlin file.
+
+# Compile Kotlin File
+
+Open command prompt and go to directory location where file is stored. Compile hello.kt file with following command.
+
+```
+kotlinc hello.kt -include-runtime -d hello.jar  
+
+```
+
+
+
+
+```
+
+```
+
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
