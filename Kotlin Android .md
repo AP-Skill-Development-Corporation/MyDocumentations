@@ -239,26 +239,110 @@ language = "Kotlin" //Error
     
 ``` 
 Here, we cannot re-assign the variable language from "Java" to "Kotlin" because the variable is declared using val keyword.
-    
-```
 
+# Kotlin Data Type
+    
+Data type (basic type) refers to type and size of data associated with variables and functions. Data type is used for declaration of memory location of variable which determines the features of data.
+
+In Kotlin, everything is an object, which means we can call member function and properties on any variable.
+
+Kotlin built in data type are categorized as following different categories:
+
+* Number
+* Character
+* Boolean
+* Array
+* String
+    
+# Number Types
+    
+Number types of data are those which hold only number type data variables. It is further categorized into different Integer and Floating point.    
+ 
+Data Type	Bit Width (Size)	Data Range
+Byte	    8 bit	            -128 to 127
+Short	    16 bit	            -32768 to 32767
+Int	        32 bit	            -2,147,483,648 to 2,147,483,647
+Long	    64 bit	            -9,223,372,036,854,775,808 to +9,223,372,036,854,775,807
+Float	    32 bit	             1.40129846432481707e-45 to 3.40282346638528860e+38
+Double   	64 bit	             4.94065645841246544e-324 to 1.79769313486231570e+308
+
+# Character (Char) Data Type    
+
+Characters are represented using the keyword Char. Char types are declared using single quotes ('').   
+    
+Data Type	Bit Width (Size)	Data Range
+
+Char      	4 bit	            -128 to 127    
+    
+## Example    
+       
+```
+val value1 = 'A'  
+//or  
+val  value2: Char  
+value2= 'A'  
+    
 ```    
+# Boolean Data Types
+    
+Boolean data is represented using the type Boolean. It contains values either true or false.
 
+ Data Type	Bit Width (Size)	Data Value
+ Boolean	1 bit	            true or false   
+ 
+# Example    
     
 ```
-
-```   
+val flag = true  
 ```
+# Array
+    
+Arrays in Kotlin are represented by the Array class. Arrays are created using library function arrayOf() and Array() constructor. Array has get (), set() function, size property as well as some other useful member functions.
 
-```       
+# Creating Array using library function arrayOf()
+    
+The arrayOf() function creates array of wrapper types. The item value are passed inside arrayOf() function like arrayOf(1,2,3) which creates an array[1,2,3].
+
+The elements of array are accessed through their index values (array[index]). Array index are start from zero.    
+    
+```
+val id = arrayOf(1,2,3,4,5)  
+val firstId = id[0]  
+val lasted = id[id.size-1]  
+    
+```
+# Creating Array using Array() constructor
+
+Creating array using Array() constructor takes two arguments in Array() constructor:
+    
+    
+    
  ```
 
 ```      
     
+    
+ ```
 
+```    
+     
+ ```
 
+```       
+    
+ ```
 
+```        
+    
+    
+ ```
 
+```    
+
+    
+ ```
+
+```    
 
 
 
