@@ -365,7 +365,120 @@ fun main(args : Array<String>) {
 } 
     
 ```        
+ # Kotlin Operator
+
+Operators are special characters which perform operation on operands (values or variable).There are various kind of operators available in Kotlin.
+
+* Arithmetic operator
+* Relation operator
+* Assignment operator
+* Unary operator
+* Bitwise operation
+* Logical operator
+
+* Arithmetic Operator
+    
+Arithmetic operators are used to perform basic mathematical operations such as addition (+), subtraction (-), multiplication (*), division (/) etc.
  
+Operator	Description	Expression	Translate to
++	        Addition	a+b	        a.plus(b)
+-	        Subtraction	a-b	        a.minus(b)
+*	        Multiply	a*b	        a.times(b)
+/	        Division	a/b	        a.div(b)
+%	        Modulus	    a%b	            a.rem(b) 
+    
+# Example of Arithmetic Operator    
+    
+ ```
+fun main(args : Array<String>) {  
+var a=10;  
+var b=5;  
+println(a+b);  
+println(a-b);  
+println(a*b);  
+println(a/b);  
+println(a%b);  
+}  
+
+```    
+## Output:
+ 15
+5
+50
+2
+0   
+    
+# Relation Operator
+    
+Relation operator shows the relation and compares between operands. Following are the different relational operators:    
+
+Operator	Description	                      Expression	Translate to
+>	        greater than	                    a>b	        a.compateTo(b)>0
+<	        Less than	                        a<b	        a.compateTo(b)<0
+>=	        greater than or equal to           	a>=b	    a.compateTo(b)>=0
+<=      	less than or equal to	            a<=b	    a?.equals(b)?:(b===null)
+==	        is equal to	                        a==b	    a?.equals(b)?:(b===null)
+!=	        not equal to	                    a!=b	    !(a?.equals(b)?:(b===null))    
+ 
+## Example of Relation Operator    
+    
+ ```
+fun main(args : Array<String>) {  
+    val a = 5  
+    val b = 10  
+    val max = if (a > b) {  
+        println("a is greater than b.")  
+        a  
+    } else{  
+        println("b is greater than a.")  
+        b  
+    }  
+    println("max = $max")  
+}  
+    
+```  
+## Output:
+
+b is greater than a.
+max = 10
+
+# Assignment operator
+    
+Assignment operator "=" is used to assign a value to another variable. The assignment of value takes from right to left.    
+    
+ Operator	Description	          Expression	Convert to
++=	        add and assign	        a+=b	   a.plusAssign(b)
+-=	        subtract and assign  	a-=b	   a.minusAssign(b)
+*=	        multiply and assign 	a*=b	   a.timesAssign(b)
+/=	        divide and assign	    a/=b	   a.divAssign(b)
+%=	        mod and assign	        a%=b	   a.remAssign(b)   
+    
+## Example of Assignment operator   
+
+ ```
+fun main(args : Array<String>) {  
+  
+    var a =20;var b=5  
+    a+=b  
+    println("a+=b :"+ a)  
+    a-=b  
+    println("a-=b :"+ a)  
+    a*=b  
+    println("a*=b :"+ a)  
+    a/=b  
+    println("a/=b :"+ a)  
+    a%=b  
+    println("a%=b :"+ a)  
+  
+}  
+```   
+## Output:
+
+a+=b :25
+a-=b :20
+a*=b :100
+a/=b :20
+a%=b :0    
     
     
  ```
@@ -377,12 +490,7 @@ fun main(args : Array<String>) {
 
 ```    
 
-     ```
-
-```        
-    
-    
- ```
+```
 
 ```    
 
@@ -390,9 +498,14 @@ fun main(args : Array<String>) {
  ```
 
 ```    
+```
 
+```    
 
+    
+ ```
 
+```    
 
 
 
