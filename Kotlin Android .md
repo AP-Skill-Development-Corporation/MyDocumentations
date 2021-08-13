@@ -379,17 +379,11 @@ Operators are special characters which perform operation on operands (values or 
 # Arithmetic Operator
     
 Arithmetic operators are used to perform basic mathematical operations such as 
-addition (+)
-subtraction (-)
-multiplication (*)
-division (/) etc.
- 
-Operator	Description	  Expression	Translate to
-+	        Addition	  a+b	        a.plus(b)
--	        Subtraction	  a-b	        a.minus(b)
-*	        Multiply	  a*b	        a.times(b)
-/	        Division	  a/b	        a.div(b)
-%	        Modulus	      a%b	        a.rem(b) 
+* addition (+)  a+b	
+* subtraction (-)  a-b
+* multiplication (*)  a*b	  
+* division (/) a/b
+* Modulo (%)  a%b	
     
 # Example of Arithmetic Operator    
     
