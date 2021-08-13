@@ -478,21 +478,115 @@ a+=b :25
 a-=b :20
 a*=b :100
 a/=b :20
-a%=b :0    
+a%=b :0
+
+# Unary Operator
     
+Unary operator is used with only single operand. Following are some unary operator given below.
+
+Operator	Description  	Expression	Convert to
++	        unary plus	    +a	        a.unaryPlus()
+-	        unary minus	    -a	        a.unaryMinus()
+++	        increment by 1	++a	        a.inc()
+--	        decrement by 1	--a	        a.dec()
+!	        not	            !a	        a.not()
+
+## Example of Unary Operator    
     
  ```
+fun main(args: Array<String>){  
+    var a=10  
+    var b=5  
+    var flag = true  
+    println("+a :"+ +a)  
+    println("-b :"+ -b)  
+    println("++a :"+ ++a)  
+    println("--b :"+ --b)  
+    println("!flag :"+ !flag)  
+}  
+``` 
+## Output:
 
-```    
++a :10
+-b :-5
+++a :11
+--b :4
+!flag :false   
 
+# Logical Operator
+    
+Logical operators are used to check conditions between operands. List of logical operators are given below.
+
+Operator	Description	                              Expression	Convert to
+&&	        return true if all expression are true	(a>b) && (a>c)	(a>b) and (a>c)
+||	        return true if any expression are true	(a>b) || (a>c)	(a>b) or(a>c)
+!	        return complement of expression	        !a	             a.not()
+ 
+    
+## Example of Logical Operator    
     
  ```
+fun main(args: Array<String>){  
+    var a=10  
+    var b=5  
+    var c=15  
+    var flag = false  
+    var result: Boolean  
+    result = (a>b) && (a>c)  
+    println("(a>b) && (a>c) :"+ result)  
+    result = (a>b) || (a>c)  
+    println("(a>b) || (a>c) :"+ result)  
+    result = !flag  
+    println("!flag :"+ result)  
+  
+}  
+``` 
+## Output:
 
-```    
+(a>b) && (a>c) :false
+(a>b) || (a>c) :true
+!flag :true    
 
+# Bitwise Operation
+    
+In Kotlin, there is not any special bitwise operator. Bitwise operation is done using named function.    
+    
+ Named Function	     Description	         Expression
+shl (bits)	         signed shift left	     a.shl(b)
+shr (bits)	         signed shift right	     a.shr(b)
+ushr (bits)	         unsigned shift right	 a.ushr(b)
+and (bits)	         bitwise and	         a.and(b)
+or (bits)	         bitwise or	             a.or(b)
+xor (bits)	         bitwise xor	         a.xor(b)
+inv()	             bitwise inverse	     a.inv()   
+    
+## Example of Bitwise Operation
+    
 ```
+fun main(args: Array<String>){  
+    var a=10  
+    var b=2  
+  
+    println("a.shl(b): "+a.shl(b))  
+    println("a.shr(b): "+a.shr(b))  
+    println("a.ushr(b:) "+a.ushr(b))  
+    println("a.and(b): "+a.and(b))  
+    println("a.or(b): "+a.or(b))  
+    println("a.xor(b): "+a.xor(b))  
+    println("a.inv(): "+a.inv())  
+  
+} 
+```  
+## Output:
 
-```    
+a.shl(b): 40
+a.shr(b): 2
+a.ushr(b:) 2
+a.and(b): 2
+a.or(b): 10
+a.xor(b): 8
+a.inv(): -11
+    
 
     
  ```
