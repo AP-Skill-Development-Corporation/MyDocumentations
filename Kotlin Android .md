@@ -656,17 +656,70 @@ println(c2.brand)  // BMW
 ## output
 * Ford
 * BMW   
+# Kotlin Class Functions
     
+## Kotlin Class Functions
     
+You can also use functions inside a class, to perfom certain actions:    
 
+## Example
+    
+Create a drive() function inside the Car class and call it:
+    
 ```
+class Car(var brand: String, var model: String, var year: Int) {
+  // Class function
+  fun drive() {
+    println("Wrooom!")
+  }
+}
 
-```    
+fun main() {
+  val c1 = Car("Ford", "Mustang", 1969)
 
+  // Call the function
+  c1.drive() 
+}
+```   
+## Output    
+* Ford Mustang 1969
+* Wrooom!
+
+# Class Function Parameters
     
- ```
+Just like with regular functions, you can pass parameters to a class function:    
+    
+## Example
+    
+Create two functions: drive() and speed(), and pass parameters to the speed() function:    
 
-```    
+ ```
+class Car(var brand: String, var model: String, var year: Int) {
+  // Class function
+  fun drive() {
+    println("Wrooom!")
+  }
+
+  // Class function with parameters
+  fun speed(maxSpeed: Int) {
+    println("Max speed is: " + maxSpeed)
+  }
+}
+
+fun main() {
+  val c1 = Car("Ford", "Mustang", 1969)
+
+  // Call the functions
+  c1.drive()
+  c1.speed(200)
+}
+```
+## Output
+* Ford Mustang 1969
+* Wrooom!
+* Max speed is: 200   
+    
+    
 
 ```
 
