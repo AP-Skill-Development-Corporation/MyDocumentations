@@ -577,13 +577,13 @@ fun main(args: Array<String>){
 ```  
 ## Output:
 
-a.shl(b): 40
-a.shr(b): 2
-a.ushr(b:) 2
-a.and(b): 2
-a.or(b): 10
-a.xor(b): 8
-a.inv(): -11
+* a.shl(b): 40
+* a.shr(b): 2
+* a.ushr(b:) 2
+* a.and(b): 2
+* a.or(b): 10
+* a.xor(b): 8
+* a.inv(): -11
     
 
     
