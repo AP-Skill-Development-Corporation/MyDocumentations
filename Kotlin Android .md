@@ -400,11 +400,11 @@ println(a%b);
 
 ```    
 ## Output:
- 15
-5
-50
-2
-0   
+* 15
+* 5
+* 50
+* 2
+* 0   
     
 # Relation Operator
     
@@ -437,8 +437,8 @@ fun main(args : Array<String>) {
 ```  
 ## Output:
 
-b is greater than a.
-max = 10
+* b is greater than a.
+* max = 10
 
 # Assignment operator
     
@@ -472,11 +472,11 @@ fun main(args : Array<String>) {
 ```   
 ## Output:
 
-a+=b :25
-a-=b :20
-a*=b :100
-a/=b :20
-a%=b :0
+* a+=b :25
+* a-=b :20
+* a*=b :100
+* a/=b :20
+* a%=b :0
 
 # Unary Operator
     
@@ -505,11 +505,11 @@ fun main(args: Array<String>){
 ``` 
 ## Output:
 
-+a :10
--b :-5
-++a :11
---b :4
-!flag :false   
+* +a :10
+* -b :-5
+* ++a :11
+* --b :4
+* !flag :false   
 
 # Logical Operator
     
@@ -541,9 +541,9 @@ fun main(args: Array<String>){
 ``` 
 ## Output:
 
-(a>b) && (a>c) :false
-(a>b) || (a>c) :true
-!flag :true    
+* (a>b) && (a>c) :false
+* (a>b) || (a>c) :true
+* !flag :true    
 
 # Bitwise Operation
     
@@ -629,9 +629,9 @@ println(c1.model)   // Outputs Mustang
 println(c1.year)    // Outputs 1969
 ``` 
 ## output  
-Ford
-Mustang
-1969   
+* Ford
+* Mustang
+* 1969   
     
 # Multiple Objects
     
@@ -654,8 +654,8 @@ println(c1.brand)  // Ford
 println(c2.brand)  // BMW
 ```
 ## output
-Ford
-BMW   
+* Ford
+* BMW   
     
     
 
